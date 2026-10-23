@@ -1,0 +1,8 @@
+{
+  "name": "Sōma Restorative Massage & Wellness Sanctuary",
+  "description": "A tranquil haven for therapeutic bodywork, neuromuscular relief, hot basalt stone rituals, and botanical restoration. Featuring seamless online booking, transparent service pricing, and a curated tour of our peaceful sanctuary spaces.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
