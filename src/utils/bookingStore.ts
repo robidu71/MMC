@@ -3,6 +3,7 @@ export interface ConfirmedBooking {
   refCode: string;
   serviceId: string;
   serviceTitle: string;
+  tierLabel?: string;
   durationMinutes: number;
   price: number;
   date: string;
@@ -10,6 +11,9 @@ export interface ConfirmedBooking {
   clientName: string;
   clientEmail: string;
   clientPhone: string;
+  locationType?: 'home' | 'hotel' | 'office';
+  deliveryAddress?: string;
+  sydneySuburb?: string;
   pressurePreference?: string;
   focusAreas?: string[];
   notes?: string;

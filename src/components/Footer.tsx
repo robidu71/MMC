@@ -1,34 +1,169 @@
-import { STUDIO_INFO } from '../data/massageData';
+import { Phone, Mail, Clock, MapPin, ShieldCheck, Heart, MessageCircle } from 'lucide-react';
+import { STUDIO_INFO, SERVICES, SYDNEY_AREAS } from '../data/massageData';
 import { MMCLogo } from './MMCLogo';
 
-interface FooterProps {
-  logoStyle?: 'botanical-palm' | 'zen-meridian' | 'monogram';
-}
-
-export function Footer({ logoStyle = 'botanical-palm' }: FooterProps) {
+export function Footer() {
   return (
-    <footer className="border-t border-[#ded9ce] bg-[#ede8dc] px-5 py-12 text-[#59675d] md:px-10 lg:px-16">
-      <div className="mx-auto flex max-w-[1440px] flex-col justify-between gap-8 md:flex-row md:items-center">
-        
-        {/* Brand Lockup with MMCLogo */}
-        <MMCLogo variant="footer" logoStyle={logoStyle} />
+    <footer className="bg-[#003b42] text-teal-100 border-t border-teal-900/60 font-sans">
+      {/* Top Banner inside Footer */}
+      <div className="border-b border-teal-800/60 py-10 px-4 sm:px-8 lg:px-12">
+        <div className="mx-auto max-w-[1440px] flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+            <MMCLogo variant="footer" theme="light" />
+          </div>
 
-        {/* Navigation Mirror */}
-        <div className="flex flex-wrap items-center gap-6 text-xs font-medium text-[#59675d]">
-          <a href="#approach" className="hover:text-[#29483c] transition-colors">Approach</a>
-          <a href="#services" className="hover:text-[#29483c] transition-colors">Services</a>
-          <a href="#gallery" className="hover:text-[#29483c] transition-colors">The Space</a>
-          <a href="#practitioner" className="hover:text-[#29483c] transition-colors">Practitioner</a>
-          <a href="#reviews" className="hover:text-[#29483c] transition-colors">Kind words</a>
-          <a href="#faq" className="hover:text-[#29483c] transition-colors">FAQ</a>
-          <a href="#booking" className="hover:text-[#29483c] transition-colors">Booking</a>
+          <div className="flex flex-wrap items-center justify-center gap-3 text-xs">
+            <a
+              href={STUDIO_INFO.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 bg-[#25D366] hover:bg-[#20ba59] text-white px-5 py-2.5 rounded-full font-bold uppercase tracking-wider transition-colors shadow-sm"
+            >
+              <MessageCircle className="w-4 h-4 fill-white" />
+              <span>WhatsApp: +61 433 556 409</span>
+            </a>
+
+            <a
+              href={`tel:${STUDIO_INFO.phone.replace(/\s+/g, '')}`}
+              className="flex items-center gap-2 bg-[#007a87] hover:bg-[#00636e] text-white px-5 py-2.5 rounded-full font-bold uppercase tracking-wider transition-colors shadow-sm"
+            >
+              <Phone className="w-4 h-4" />
+              <span>Call {STUDIO_INFO.phoneDisplay}</span>
+            </a>
+
+            <a
+              href="#treatments"
+              className="border border-teal-400/40 hover:bg-teal-800/40 text-white px-5 py-2.5 rounded-full font-bold uppercase tracking-wider transition-colors"
+            >
+              View 6 Treatments
+            </a>
+          </div>
         </div>
+      </div>
 
-        {/* Copyright */}
-        <div className="text-xs text-[#78857a]">
-          &copy; {new Date().getFullYear()} {STUDIO_INFO.name}. All rights reserved.
+      {/* 4 Multi-Column Directory */}
+      <div className="py-14 px-4 sm:px-8 lg:px-12">
+        <div className="mx-auto max-w-[1440px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+          
+          {/* Col 1: About */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-teal-300 mb-4">
+              About Shairu
+            </h4>
+            <p className="text-xs text-teal-200/90 leading-relaxed font-light mb-4">
+              Shairu is Australia’s premier provider of in-room hotel and in-home mobile massage services. Trusted by 4 and 5-star hotels, luxury apartments, and private residences across Australia.
+            </p>
+            <div className="flex items-center gap-2 text-xs text-amber-300 font-semibold">
+              <ShieldCheck className="w-4 h-4 shrink-0" />
+              <span>Fully Insured &amp; Police Vetted</span>
+            </div>
+          </div>
+
+          {/* Col 2: The 6 Treatments & Rates */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-teal-300 mb-4">
+              6 Treatments &amp; Rates
+            </h4>
+            <ul className="space-y-2 text-xs text-teal-100/90">
+              {SERVICES.map((s) => (
+                <li key={s.id}>
+                  <a href="#treatments" className="hover:text-white transition-colors flex items-center justify-between">
+                    <span>{s.title}</span>
+                    <span className="text-[11px] text-teal-300 font-bold">$100 / $140 / $170</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Col 3: Locations Across Australia */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-teal-300 mb-4">
+              Australian Locations
+            </h4>
+            <ul className="space-y-1.5 text-xs text-teal-100/90">
+              <li className="font-bold text-white flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-[#007a87]" />
+                <span>Sydney &amp; Greater Metro (Active)</span>
+              </li>
+              <li className="text-[11px] text-teal-200 pl-5">CBD, Eastern Suburbs, North Shore, Inner West</li>
+              <li className="text-teal-200/80 pl-5">Melbourne &amp; Victoria</li>
+              <li className="text-teal-200/80 pl-5">Brisbane &amp; Gold Coast, QLD</li>
+              <li className="text-teal-200/80 pl-5">Perth &amp; Western Australia</li>
+              <li className="text-teal-200/80 pl-5">Adelaide &amp; South Australia</li>
+              <li className="text-teal-200/80 pl-5">Canberra, ACT</li>
+            </ul>
+          </div>
+
+          {/* Col 4: Contact & Operating Hours */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-teal-300 mb-4">
+              Direct Contact &amp; Hours
+            </h4>
+            <div className="space-y-3 text-xs text-teal-100/90">
+              <div className="flex items-start gap-2.5">
+                <MessageCircle className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5 fill-emerald-400" />
+                <div>
+                  <a
+                    href={STUDIO_INFO.whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-white hover:underline block"
+                  >
+                    +61 433 556 409
+                  </a>
+                  <span className="text-[11px] text-emerald-300">WhatsApp Chat Available</span>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2.5">
+                <Phone className="w-4 h-4 text-teal-300 shrink-0 mt-0.5" />
+                <div>
+                  <a href={`tel:${STUDIO_INFO.phone.replace(/\s+/g, '')}`} className="font-bold text-white block hover:underline">
+                    {STUDIO_INFO.phoneDisplay}
+                  </a>
+                  <span className="text-[11px] text-teal-300">Direct Telephone Booking</span>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2.5">
+                <Mail className="w-4 h-4 text-teal-300 shrink-0 mt-0.5" />
+                <div>
+                  <a href={`mailto:${STUDIO_INFO.email}`} className="hover:underline text-teal-100">
+                    {STUDIO_INFO.email}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2.5">
+                <Clock className="w-4 h-4 text-teal-300 shrink-0 mt-0.5" />
+                <div>
+                  <span className="text-white font-medium">Monday – Sunday: 8:00 AM – 10:00 PM</span>
+                  <span className="text-[11px] text-teal-300 block">7 Days On-Demand Service</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
+      </div>
 
+      {/* Bottom Legal Bar */}
+      <div className="border-t border-teal-900/80 py-6 px-4 sm:px-8 text-center text-xs text-teal-300/80">
+        <div className="mx-auto max-w-[1440px] flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p>
+            &copy; {new Date().getFullYear()} Shairu Mobile Massage &amp; Therapies Pty Ltd. All rights reserved.
+          </p>
+          <div className="flex items-center gap-4 text-teal-200/70">
+            <a href="#services" className="hover:text-white">Services</a>
+            <span>•</span>
+            <a href="#treatments" className="hover:text-white">Treatments</a>
+            <span>•</span>
+            <a href="#locations" className="hover:text-white">Locations</a>
+            <span>•</span>
+            <a href="#booking" className="hover:text-white">Book Online</a>
+          </div>
+        </div>
       </div>
     </footer>
   );

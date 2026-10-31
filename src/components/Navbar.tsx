@@ -1,24 +1,19 @@
 import { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Menu, X, ArrowUpRight, Palette } from 'lucide-react';
-import { soundscape } from '../utils/soundscape';
+import { Menu, X, Phone, ChevronDown, MessageCircle } from 'lucide-react';
 import { MMCLogo } from './MMCLogo';
+import { STUDIO_INFO } from '../data/massageData';
 import { getStoredBookings } from '../utils/bookingStore';
 
 interface NavbarProps {
   onOpenBooking: (serviceId?: string) => void;
-  logoStyle?: 'botanical-palm' | 'zen-meridian' | 'monogram';
-  onChangeLogoStyle?: (style: 'botanical-palm' | 'zen-meridian' | 'monogram') => void;
+  onSelectTab?: (tab: string) => void;
 }
 
-export function Navbar({
-  onOpenBooking,
-  logoStyle = 'botanical-palm',
-  onChangeLogoStyle,
-}: NavbarProps) {
-  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+export function Navbar({ onOpenBooking, onSelectTab }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showLogoModal, setShowLogoModal] = useState(false);
   const [bookingCount, setBookingCount] = useState(0);
+  const [servicesDropdown, setServicesDropdown] = useState(false);
+  const [locationsDropdown, setLocationsDropdown] = useState(false);
 
   useEffect(() => {
     const updateCount = () => {
@@ -31,241 +26,217 @@ export function Navbar({
     return () => window.removeEventListener('mmc_booking_updated', updateCount);
   }, []);
 
-  const toggleAudio = () => {
-    const nextState = soundscape.toggle();
-    setIsPlayingAudio(nextState);
-  };
-
   const navLinks = [
-    { label: 'Approach', href: '#approach' },
-    { label: 'Services', href: '#services' },
-    { label: 'The Space', href: '#gallery' },
-    { label: 'Practitioner', href: '#practitioner' },
-    { label: 'Kind words', href: '#reviews' },
-    { label: 'FAQ', href: '#faq' },
-    { label: 'Visit', href: '#visit' },
+    { label: 'HOME', href: '#home' },
+    { label: 'SERVICES', href: '#services', hasDropdown: true },
+    { label: 'TREATMENTS', href: '#treatments' },
+    { label: 'LOCATIONS', href: '#locations', hasDropdown: true },
+    { label: 'PRICING', href: '#treatments' },
+    { label: 'CONTACT', href: '#contact' },
   ];
 
-  const logoIdeas = [
-    {
-      id: 'botanical-palm' as const,
-      name: 'Botanical Palm & Zen Arc',
-      subtitle: 'Recommended · Harmonious human touch arches forming "MMC" with healing leaf & river stone',
-      tone: 'Warm, organic, deeply restorative',
-    },
-    {
-      id: 'zen-meridian' as const,
-      name: 'Lotus Meridian & Pebble',
-      subtitle: 'Symmetrical lotus energy lines cradled by grounding stones',
-      tone: 'Quiet, meditative, contemplative',
-    },
-    {
-      id: 'monogram' as const,
-      name: 'Modern Monogram MMC',
-      subtitle: 'Editorial linear monogram interlocking MMC with fluid curvature',
-      tone: 'Refined, architectural, clinical precision',
-    },
+  const serviceItems = [
+    { title: 'Hotel In-Room Massage', desc: 'Partnered with 4 & 5 star hotels' },
+    { title: 'At-Home Mobile Massage', desc: 'Day-spa delivered directly to your home' },
+    { title: 'Corporate Workplace Wellness', desc: 'Seated desk massages for teams' },
+    { title: 'Couples & Special Occasions', desc: 'Side-by-side treatments & celebrations' },
+  ];
+
+  const locationItems = [
+    { name: 'Sydney CBD & Darling Harbour', desc: 'Immediate dispatch to all hotels & apartments' },
+    { name: 'Eastern Suburbs', desc: 'Bondi, Double Bay, Paddington, Coogee' },
+    { name: 'North Shore & Northern Beaches', desc: 'North Sydney, Mosman, Manly' },
+    { name: 'Inner West & Surry Hills', desc: 'Newtown, Balmain, Alexandria' },
   ];
 
   return (
-    <>
-      {/* Top Quiet Banner matching reference site */}
-      <div className="bg-[#29483c] px-4 py-2 text-center text-[10px] font-semibold tracking-[.12em] text-[#f3eee3] sm:text-xs">
-        A QUIETER KIND OF CARE <span className="mx-2 text-[#d6a982]">/</span> MASUD&apos;S MASSAGE CENTER (MMC)
-      </div>
+    <header className="sticky top-0 z-50 bg-white border-b border-slate-200/80 shadow-xs backdrop-blur-md">
+      {/* Main Navigation Bar */}
+      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-4 sm:px-8 py-3.5 sm:py-4">
+        
+        {/* Shairu Brand Signature Logo */}
+        <a href="#home" aria-label="Shairu Mobile Massage Australia Home" className="shrink-0">
+          <MMCLogo variant="full" />
+        </a>
 
-      <header className="sticky top-0 z-40 bg-[#f5f2e9]/95 backdrop-blur-md border-b border-[#ded9ce] transition-all">
-        <div className="mx-auto flex max-w-[1440px] items-center justify-between px-5 py-4 md:px-10 lg:px-16">
-          
-          {/* Logo & Studio Mark with bespoke MMC Logo */}
-          <div className="flex items-center gap-2">
-            <a href="#home" aria-label="Masud's Massage Center (MMC) home" className="group">
-              <MMCLogo variant="full" logoStyle={logoStyle} />
-            </a>
+        {/* Desktop Navigation Links — All accessible in header */}
+        <nav className="hidden lg:flex items-center gap-5 xl:gap-7 font-sans text-[13px] font-bold text-slate-700 tracking-wider">
+          {navLinks.map((link) => {
+            if (link.label === 'SERVICES') {
+              return (
+                <div
+                  key={link.label}
+                  className="relative group py-2"
+                  onMouseEnter={() => setServicesDropdown(true)}
+                  onMouseLeave={() => setServicesDropdown(false)}
+                >
+                  <a
+                    href={link.href}
+                    className="flex items-center gap-1 text-slate-700 hover:text-[#007a87] transition-colors"
+                  >
+                    <span>{link.label}</span>
+                    <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#007a87]" />
+                  </a>
 
-            {/* Quick Logo Style Picker Button */}
-            <button
-              onClick={() => setShowLogoModal(true)}
-              title="View & choose Logo Ideas"
-              className="hidden sm:flex items-center gap-1 ml-2 px-2.5 py-1 rounded-full text-[10px] text-[#78857a] hover:text-[#29483c] bg-[#ede7dc] hover:bg-[#e2d8cb] transition-colors"
-            >
-              <Palette className="w-3 h-3 text-[#9a7053]" />
-              <span>Logo Ideas</span>
-            </button>
-          </div>
+                  {/* Dropdown */}
+                  {servicesDropdown && (
+                    <div className="absolute top-full left-0 w-72 bg-white rounded-lg shadow-xl border border-slate-100 py-3 px-2 z-50 animate-in fade-in duration-150">
+                      {serviceItems.map((s, idx) => (
+                        <a
+                          key={idx}
+                          href="#services"
+                          className="block px-3 py-2 rounded-md hover:bg-teal-50 transition-colors"
+                          onClick={() => setServicesDropdown(false)}
+                        >
+                          <div className="text-xs font-bold text-slate-800 hover:text-[#007a87]">{s.title}</div>
+                          <div className="text-[11px] text-slate-500 font-normal">{s.desc}</div>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
 
-          {/* Desktop Nav Links */}
-          <nav className="hidden lg:flex items-center gap-7 text-xs font-medium text-[#5c695f]">
-            {navLinks.map((link) => (
+            if (link.label === 'LOCATIONS') {
+              return (
+                <div
+                  key={link.label}
+                  className="relative group py-2"
+                  onMouseEnter={() => setLocationsDropdown(true)}
+                  onMouseLeave={() => setLocationsDropdown(false)}
+                >
+                  <a
+                    href={link.href}
+                    className="flex items-center gap-1 text-slate-700 hover:text-[#007a87] transition-colors"
+                  >
+                    <span>{link.label}</span>
+                    <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#007a87]" />
+                  </a>
+
+                  {/* Dropdown */}
+                  {locationsDropdown && (
+                    <div className="absolute top-full left-0 w-80 bg-white rounded-lg shadow-xl border border-slate-100 py-3 px-2 z-50 animate-in fade-in duration-150">
+                      {locationItems.map((loc, idx) => (
+                        <a
+                          key={idx}
+                          href="#locations"
+                          className="block px-3 py-2 rounded-md hover:bg-teal-50 transition-colors"
+                          onClick={() => setLocationsDropdown(false)}
+                        >
+                          <div className="text-xs font-bold text-slate-800 flex items-center justify-between">
+                            <span>{loc.name}</span>
+                            <span className="text-[9px] bg-teal-100 text-[#007a87] px-1.5 py-0.5 rounded font-semibold">Active</span>
+                          </div>
+                          <div className="text-[11px] text-slate-500 font-normal">{loc.desc}</div>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
+            return (
               <a
-                key={link.href}
+                key={link.label}
                 href={link.href}
-                className="hover:text-[#29483c] transition-colors py-1 hover:underline underline-offset-4 decoration-[#a8b39e]"
+                className="text-slate-700 hover:text-[#007a87] transition-colors py-2 border-b-2 border-transparent hover:border-[#007a87]"
               >
                 {link.label}
               </a>
-            ))}
-          </nav>
+            );
+          })}
+        </nav>
 
-          {/* Action Zone */}
-          <div className="flex items-center gap-3">
-            {/* Audio Toggle */}
-            <button
-              onClick={toggleAudio}
-              title={isPlayingAudio ? 'Mute serene soundscape' : 'Listen to tranquil spa soundscape'}
-              aria-label={isPlayingAudio ? 'Mute soundscape' : 'Play soundscape'}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-[#4b5a51] bg-[#ece6d9] hover:bg-[#e4dcce] rounded-full transition-colors"
-            >
-              {isPlayingAudio ? (
-                <>
-                  <Volume2 className="w-3.5 h-3.5 text-[#29483c] animate-pulse" />
-                  <span className="hidden sm:inline text-[11px]">Sound on</span>
-                </>
-              ) : (
-                <>
-                  <VolumeX className="w-3.5 h-3.5 text-[#7b887f]" />
-                  <span className="hidden sm:inline text-[11px]">Sound off</span>
-                </>
-              )}
-            </button>
+        {/* Action Buttons: WhatsApp Quick Chat + BOOK NOW Pill */}
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          {/* WhatsApp Direct Header Button */}
+          <a
+            href={STUDIO_INFO.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] px-4 py-2 text-xs font-bold text-white shadow-xs transition-all active:scale-95"
+            aria-label="Chat on WhatsApp +61 433 556 409"
+          >
+            <MessageCircle className="w-3.5 h-3.5 fill-white" />
+            <span className="hidden xl:inline">WhatsApp:</span>
+            <span>+61 433 556 409</span>
+          </a>
 
-            {/* Primary Booking Button (+ active badge) */}
-            <button
-              onClick={() => onOpenBooking()}
-              className="group flex items-center gap-1.5 rounded-full bg-[#29483c] px-4 py-2 text-xs font-medium text-[#f3eee3] transition-colors hover:bg-[#1f372e] shadow-xs cursor-pointer"
-            >
-              <span>Book a session</span>
-              {bookingCount > 0 && (
-                <span className="w-4 h-4 rounded-full bg-[#d6a982] text-[#29483c] text-[10px] font-bold flex items-center justify-center -mr-0.5">
-                  {bookingCount}
-                </span>
-              )}
-              <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </button>
+          <button
+            onClick={() => onOpenBooking()}
+            className="group relative flex items-center justify-center gap-2 rounded-full bg-[#007a87] px-5 sm:px-7 py-2 sm:py-2.5 text-xs sm:text-sm font-bold tracking-wider uppercase text-white shadow-md hover:bg-[#00636e] active:scale-95 transition-all cursor-pointer"
+          >
+            <span>BOOK NOW</span>
+            {bookingCount > 0 && (
+              <span className="w-5 h-5 rounded-full bg-amber-400 text-slate-900 text-[10px] font-extrabold flex items-center justify-center">
+                {bookingCount}
+              </span>
+            )}
+          </button>
 
-            {/* Mobile Menu Toggle */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-1.5 text-[#29483c] rounded-md hover:bg-[#eae3d5] lg:hidden"
-              aria-label="Toggle mobile menu"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
-
+          {/* Mobile Menu Hamburger */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 text-slate-700 rounded-md hover:bg-slate-100 lg:hidden"
+            aria-label="Toggle mobile menu"
+          >
+            {mobileMenuOpen ? <X className="w-6 h-6 text-[#007a87]" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
-      </header>
+
+      </div>
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="fixed inset-x-0 top-[90px] z-30 bg-[#f5f2e9] border-b border-[#ded9ce] shadow-lg lg:hidden px-6 py-6 animate-in slide-in-from-top-2">
-          <nav className="flex flex-col gap-4 text-sm font-medium text-[#29483c]">
+        <div className="lg:hidden bg-white border-t border-slate-200 px-6 py-5 shadow-xl animate-in slide-in-from-top-2">
+          <nav className="flex flex-col gap-3 font-sans text-sm font-bold text-slate-800">
             {navLinks.map((link) => (
               <a
-                key={link.href}
+                key={link.label}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="py-1.5 border-b border-[#e9e3d6]"
+                className="py-2 border-b border-slate-100 hover:text-[#007a87] flex items-center justify-between"
               >
-                {link.label}
+                <span>{link.label}</span>
+                <span className="text-xs text-slate-400">&rarr;</span>
               </a>
             ))}
             
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                setShowLogoModal(true);
-              }}
-              className="flex items-center gap-2 py-2 text-xs text-[#78857a]"
-            >
-              <Palette className="w-4 h-4 text-[#9a7053]" />
-              <span>Explore Logo Ideas</span>
-            </button>
+            <div className="pt-3 flex flex-col gap-2.5">
+              <a
+                href={STUDIO_INFO.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-center gap-2 py-3 text-xs font-bold text-white bg-[#25D366] hover:bg-[#20ba59] rounded-full shadow-xs"
+              >
+                <MessageCircle className="w-4 h-4 fill-white" />
+                <span>WhatsApp: +61 433 556 409</span>
+              </a>
 
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenBooking();
-              }}
-              className="mt-2 w-full py-2.5 text-center text-xs font-medium text-[#f3eee3] bg-[#29483c] rounded-full"
-            >
-              Book a session
-            </button>
+              <a
+                href={`tel:${STUDIO_INFO.phone.replace(/\s+/g, '')}`}
+                className="flex items-center justify-center gap-2 py-2.5 text-xs font-bold text-[#007a87] border border-[#007a87] rounded-full"
+              >
+                <Phone className="w-4 h-4" />
+                <span>Call {STUDIO_INFO.phoneDisplay}</span>
+              </a>
+
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenBooking();
+                }}
+                className="w-full py-3 text-center text-xs font-bold tracking-wider uppercase text-white bg-[#007a87] hover:bg-[#00636e] rounded-full shadow-md cursor-pointer"
+              >
+                BOOK NOW
+              </button>
+            </div>
           </nav>
         </div>
       )}
-
-      {/* Logo Idea Showcase Modal */}
-      {showLogoModal && (
-        <div className="fixed inset-0 z-50 bg-[#1f372e]/80 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto animate-in fade-in duration-200">
-          <div className="bg-[#f5f2e9] rounded-[3px] max-w-xl w-full p-6 sm:p-8 border border-[#ded9ce] shadow-2xl relative">
-            <button
-              onClick={() => setShowLogoModal(false)}
-              className="absolute top-4 right-4 p-1.5 rounded-full text-[#59675d] hover:bg-[#ded9ce]"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            <p className="eyebrow text-[#9a7053] mb-1">
-              Logo Design Concepts
-            </p>
-            <h3 className="serif text-3xl text-[#29483c] mb-2">
-              Masud&apos;s Massage Center (MMC)
-            </h3>
-            <p className="text-xs text-[#59675d] leading-relaxed mb-6 font-light">
-              Crafted around therapeutic human touch, somatic healing palm arches, smooth river stones, and botanical renewal. Click any concept to preview it live across the site:
-            </p>
-
-            <div className="space-y-3">
-              {logoIdeas.map((idea) => {
-                const isSelected = logoStyle === idea.id;
-                return (
-                  <button
-                    key={idea.id}
-                    onClick={() => {
-                      onChangeLogoStyle?.(idea.id);
-                    }}
-                    className={`w-full p-4 rounded-[2px] border text-left flex items-start gap-4 transition-all cursor-pointer ${
-                      isSelected
-                        ? 'bg-white border-[#29483c] shadow-xs ring-1 ring-[#29483c]'
-                        : 'bg-[#ede8dc] border-[#ded9ce] hover:bg-white'
-                    }`}
-                  >
-                    <div className="w-12 h-12 shrink-0">
-                      <MMCLogo variant="mark-only" logoStyle={idea.id} className="w-12 h-12" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <span className="font-serif text-lg text-[#29483c]">{idea.name}</span>
-                        {isSelected && (
-                          <span className="text-[10px] bg-[#29483c] text-[#f3eee3] px-2 py-0.5 rounded font-sans uppercase tracking-wider font-semibold">
-                            Active
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-xs text-[#59675d] mt-0.5 leading-relaxed font-light">
-                        {idea.subtitle}
-                      </p>
-                      <div className="text-[11px] text-[#9a7053] mt-1 font-medium">
-                        Tone: {idea.tone}
-                      </div>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="mt-6 pt-4 border-t border-[#ded9ce] flex justify-end">
-              <button
-                onClick={() => setShowLogoModal(false)}
-                className="px-5 py-2 text-xs font-medium rounded-full bg-[#29483c] text-[#f3eee3] hover:bg-[#1f372e]"
-              >
-                Apply &amp; Continue
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+    </header>
   );
 }

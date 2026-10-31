@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { REVIEWS, FAQS } from '../data/massageData';
-import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Star, ShieldCheck, HelpCircle } from 'lucide-react';
 
 export function ReviewsAndFaq() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -23,17 +23,18 @@ export function ReviewsAndFaq() {
 
   return (
     <>
-      {/* Kind Words / Reviews Section */}
-      <section id="reviews" aria-labelledby="reviews-title" className="overflow-hidden bg-[#f0eee5] px-5 py-16 md:px-10 md:py-24 lg:px-16 border-t border-[#ded9ce]">
+      {/* Testimonials Section */}
+      <section id="reviews" aria-labelledby="reviews-title" className="bg-slate-50 px-4 sm:px-8 lg:px-12 py-16 sm:py-24 border-t border-slate-200">
         <div className="mx-auto max-w-[1240px]">
           
-          <div className="mb-8 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+          <div className="mb-10 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
             <div>
-              <p className="eyebrow mb-4 text-[#a16f4d]">
-                Notes from the studio
-              </p>
-              <h2 id="reviews-title" className="serif text-5xl tracking-[-.035em] text-[#29483c] md:text-6xl">
-                A few kind words.
+              <span className="text-xs font-bold uppercase tracking-widest text-[#007a87] flex items-center gap-1.5 mb-2">
+                <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                Verified Guest Reviews
+              </span>
+              <h2 id="reviews-title" className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
+                Trusted by Guests &amp; Residents Across Sydney
               </h2>
             </div>
 
@@ -42,16 +43,16 @@ export function ReviewsAndFaq() {
               <button
                 onClick={prevReview}
                 aria-label="Previous testimonials"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-[#aeb8a8] text-[#29483c] hover:bg-white transition-colors"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 hover:border-[#007a87] hover:text-[#007a87] transition-colors shadow-2xs cursor-pointer"
               >
-                <ChevronLeft className="w-4 h-4" />
+                <ChevronLeft className="w-5 h-5" />
               </button>
               <button
                 onClick={nextReview}
                 aria-label="Next testimonials"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-[#aeb8a8] text-[#29483c] hover:bg-white transition-colors"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 hover:border-[#007a87] hover:text-[#007a87] transition-colors shadow-2xs cursor-pointer"
               >
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-5 h-5" />
               </button>
             </div>
           </div>
@@ -61,15 +62,22 @@ export function ReviewsAndFaq() {
             {currentReviews.map((review) => (
               <article
                 key={review.id}
-                className="flex min-h-[220px] flex-col justify-between rounded-[2px] border border-[#ded9ce] bg-[#f5f2e9] p-6 sm:p-8 transition-transform duration-300 hover:-translate-y-1"
+                className="flex min-h-[220px] flex-col justify-between rounded-xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm hover:border-[#007a87] transition-all"
               >
-                <p className="serif text-2xl sm:text-3xl leading-snug text-[#29483c] font-normal">
-                  &ldquo;{review.quote}&rdquo;
-                </p>
+                <div>
+                  <div className="flex items-center gap-1 text-amber-400 mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-amber-400" />
+                    ))}
+                  </div>
+                  <p className="text-base sm:text-lg leading-relaxed text-slate-800 font-normal italic">
+                    &ldquo;{review.quote}&rdquo;
+                  </p>
+                </div>
 
-                <div className="mt-6 flex items-center justify-between border-t border-[#29483c]/15 pt-4 text-xs">
-                  <span className="font-semibold text-[#29483c]">{review.name}</span>
-                  <span className="text-[#78857a]">{review.service}</span>
+                <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-4 text-xs">
+                  <span className="font-bold text-slate-900">{review.name}</span>
+                  <span className="text-[#007a87] font-semibold">{review.service}</span>
                 </div>
               </article>
             ))}
@@ -79,30 +87,34 @@ export function ReviewsAndFaq() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="px-5 py-16 md:px-10 md:py-24 lg:px-16 border-t border-[#ded9ce]">
-        <div className="mx-auto max-w-[840px]">
+      <section id="faq" className="bg-white px-4 sm:px-8 lg:px-12 py-16 sm:py-24 border-t border-slate-200">
+        <div className="mx-auto max-w-[880px]">
           
           <div className="text-center mb-12">
-            <p className="eyebrow mb-3 text-[#9a7053]">
-              Notes from the studio
-            </p>
-            <h2 className="serif text-4xl sm:text-5xl md:text-6xl tracking-[-0.035em] text-[#29483c]">
-              Questions you might have.
+            <span className="text-xs font-bold uppercase tracking-widest text-[#007a87] flex items-center justify-center gap-1.5 mb-2">
+              <HelpCircle className="w-4 h-4" />
+              Frequently Asked Questions
+            </span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
+              Everything You Need to Know
             </h2>
+            <p className="text-sm text-slate-600 mt-2">
+              Quick answers about our Sydney mobile massage delivery, booking times, and equipment.
+            </p>
           </div>
 
-          <div className="divide-y divide-[#29483c]/15 border-y border-[#29483c]/15">
+          <div className="divide-y divide-slate-200 border-y border-slate-200">
             {FAQS.map((faq, idx) => {
               const isOpen = openFaqIndex === idx;
               return (
-                <div key={idx} className="py-6">
+                <div key={idx} className="py-5">
                   <button
                     onClick={() => toggleFaq(idx)}
-                    className="flex w-full cursor-pointer items-center justify-between text-left text-base sm:text-lg font-semibold text-[#29483c] hover:text-[#426453] transition-colors"
+                    className="flex w-full cursor-pointer items-center justify-between text-left text-base sm:text-lg font-bold text-slate-900 hover:text-[#007a87] transition-colors"
                   >
                     <span>{faq.question}</span>
                     <span
-                      className={`ml-4 text-2xl font-light text-[#a16f4d] transition-transform duration-200 ${
+                      className={`ml-4 text-2xl font-light text-[#007a87] transition-transform duration-200 ${
                         isOpen ? 'rotate-45' : ''
                       }`}
                     >
@@ -111,7 +123,7 @@ export function ReviewsAndFaq() {
                   </button>
 
                   {isOpen && (
-                    <div className="pt-4 text-sm leading-6 text-[#59675d] font-light max-w-[680px] animate-in fade-in duration-200">
+                    <div className="pt-3 text-sm leading-relaxed text-slate-600 font-light pr-8 animate-in fade-in duration-200">
                       {faq.answer}
                     </div>
                   )}

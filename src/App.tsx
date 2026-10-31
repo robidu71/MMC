@@ -8,12 +8,12 @@ import { ReviewsAndFaq } from './components/ReviewsAndFaq';
 import { BookingSection } from './components/BookingSection';
 import { Footer } from './components/Footer';
 import { BookingModal } from './components/BookingModal';
+import { ChatAgent } from './components/ChatAgent';
 
 export default function App() {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [selectedServiceId, setSelectedServiceId] = useState<string | undefined>(undefined);
   const [selectedDuration, setSelectedDuration] = useState<number | undefined>(undefined);
-  const [logoStyle, setLogoStyle] = useState<'botanical-palm' | 'zen-meridian' | 'monogram'>('botanical-palm');
 
   const handleOpenBooking = (serviceId?: string, duration?: number) => {
     setSelectedServiceId(serviceId);
@@ -28,63 +28,64 @@ export default function App() {
   };
 
   const handleExploreTreatments = () => {
-    const el = document.getElementById('services');
+    const el = document.getElementById('treatments') || document.getElementById('services');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f2e9] text-[#29483c] flex flex-col font-sans selection:bg-[#29483c]/15 selection:text-[#29483c]">
+    <div className="min-h-screen bg-white text-slate-800 flex flex-col font-sans selection:bg-[#007a87]/20 selection:text-[#007a87]">
       
-      {/* Top Banner & Header with Custom Logo */}
+      {/* Top Banner & Header matching Rejuvenators navbar */}
       <Navbar
         onOpenBooking={() => handleOpenBooking()}
-        logoStyle={logoStyle}
-        onChangeLogoStyle={setLogoStyle}
       />
 
       <main className="flex-1">
-        {/* Hero Section */}
+        {/* Rejuvenators Full-Width Hero Panoramic Section */}
         <HeroSection
           onOpenBooking={() => handleOpenBooking()}
           onExploreTreatments={handleExploreTreatments}
         />
 
-        {/* The Approach & Services Pricing */}
+        {/* 4 Core Services & 6 Treatments Pricing ($100 for 1h, $140 for 1.5h, $170 for 2h) */}
         <ServicesSection
           onSelectServiceForBooking={(serviceId, duration) => handleOpenBooking(serviceId, duration)}
         />
 
-        {/* Practitioner Section: Meet Masud, LMT */}
+        {/* Certified Therapists & 30+ Years Standards */}
         <PractitionerSection
           onOpenBooking={() => handleOpenBooking()}
         />
 
-        {/* Gallery of the Space */}
+        {/* In-Room Setup & Sanctuary Transformation */}
         <GallerySection
           onBookSession={() => handleOpenBooking()}
         />
 
-        {/* Kind Words / Reviews & Studio FAQs */}
+        {/* Guest Reviews & Australia Mobile FAQs */}
         <ReviewsAndFaq />
 
-        {/* Dynamic Online Booking & Studio Location Visit */}
+        {/* Online Booking Concierge & Sydney Coverage */}
         <BookingSection
           onOpenBookingModal={(serviceId) => handleOpenBooking(serviceId)}
         />
       </main>
 
-      {/* Quiet Footer with Logo */}
-      <Footer logoStyle={logoStyle} />
+      {/* Rejuvenators Australia Network Footer */}
+      <Footer />
 
-      {/* Full-Featured Step-by-Step Online Booking Concierge Modal */}
+      {/* Interactive Step-by-Step Online Booking Modal */}
       <BookingModal
         isOpen={isBookingModalOpen}
         onClose={handleCloseBooking}
         initialServiceId={selectedServiceId}
         initialDuration={selectedDuration}
       />
+
+      {/* Floating 5-Star AI Concierge Chat Agent with Google Grounding & WhatsApp */}
+      <ChatAgent onOpenBooking={(serviceId) => handleOpenBooking(serviceId)} />
 
     </div>
   );

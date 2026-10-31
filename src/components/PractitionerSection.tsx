@@ -1,4 +1,4 @@
-import { ArrowUpRight, Check, Award, ShieldCheck, HeartHandshake } from 'lucide-react';
+import { ArrowUpRight, Award, ShieldCheck, HeartHandshake, CheckCircle2, UserCheck, Star } from 'lucide-react';
 
 interface PractitionerSectionProps {
   onOpenBooking: () => void;
@@ -6,78 +6,82 @@ interface PractitionerSectionProps {
 
 export function PractitionerSection({ onOpenBooking }: PractitionerSectionProps) {
   return (
-    <section id="practitioner" className="bg-[#29483c] px-5 py-16 text-[#f3eee3] md:px-10 md:py-24 lg:px-16">
-      <div className="mx-auto grid max-w-[1240px] gap-12 md:grid-cols-[.85fr_1.15fr] md:items-center md:gap-20">
+    <section id="practitioners" className="bg-[#004e57] text-white px-4 sm:px-8 lg:px-12 py-16 sm:py-24">
+      <div className="mx-auto grid max-w-[1240px] gap-12 md:grid-cols-[.85fr_1.15fr] md:items-center md:gap-16">
         
-        {/* Practitioner Image Column with real photo from reference site */}
+        {/* Practitioner Image Column */}
         <figure className="group relative mx-auto w-full max-w-[430px] md:mx-0">
           <div
             aria-hidden="true"
-            className="absolute -inset-3 rounded-[3px] border border-[#f3eee3]/15 transition-transform duration-500 group-hover:scale-[1.02]"
+            className="absolute -inset-3 rounded-2xl border border-teal-400/20 transition-transform duration-500 group-hover:scale-[1.02]"
           />
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[2px] bg-[#1f372e]">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-teal-950 shadow-2xl">
             <img
               src="/massage-session.jpg"
-              alt="Masud, a professional massage therapist providing respectful and focused bodywork"
-              className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.025]"
+              alt="Qualified Shairu mobile massage therapist delivering in-room care"
+              className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
               onError={(e) => {
                 (e.target as HTMLElement).style.display = 'none';
               }}
             />
           </div>
-          <figcaption className="mt-4 flex items-center justify-between text-xs text-[#cad5cb]">
-            <span>Masud, LMT</span>
-            <span className="text-[#d6a982]">Founder · Lead Practitioner</span>
+          <figcaption className="mt-4 flex items-center justify-between text-xs text-teal-200">
+            <span className="flex items-center gap-1 font-bold">
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+              5-Star Vetted Therapists
+            </span>
+            <span className="text-teal-100">Shairu Australia Network</span>
           </figcaption>
         </figure>
 
         {/* Narrative Column */}
         <div>
-          <p className="eyebrow mb-3 text-[#d6a982]">
-            Care, in practice
-          </p>
+          <span className="text-xs font-bold uppercase tracking-widest text-teal-300 block mb-2">
+            Professional Standards &amp; Care
+          </span>
 
-          <h2 className="serif text-4xl sm:text-5xl md:text-6xl tracking-[-0.035em] text-[#f3eee3] mb-6">
-            A collaborative approach to relief.
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+            Qualified, Police-Checked &amp; Personally Selected Therapists
           </h2>
 
-          <div className="space-y-4 text-sm sm:text-base leading-relaxed text-[#c6d3c8] font-light">
+          <div className="space-y-4 text-sm sm:text-base leading-relaxed text-teal-100 font-light">
             <p>
-              Bodywork, for me, begins with listening. I work with people who carry tension from long hours at the desk, active training, or simply living through demanding days.
+              At <strong>Shairu</strong>, your comfort, safety, and therapeutic recovery are paramount. We maintain the most stringent recruitment and qualification standards in the Australian mobile health industry.
             </p>
             <p>
-              Every session is collaborative: we pay close attention to what feels supportive, leave ample space to adjust pressure as we go, and never force a muscle to release before your nervous system is ready.
+              Each practitioner arrives fully equipped with commercial-grade portable tables, sanitized linens, and organic oils. Whether you require firm remedial trigger-point release or gentle jet-lag recovery in your hotel room, our therapists adjust the pressure continuously to your preference.
             </p>
           </div>
 
           {/* Credentials and Highlights */}
-          <div className="mt-8 pt-6 border-t border-[#f3eee3]/15 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-[#dbe6dc]">
+          <div className="mt-8 pt-6 border-t border-teal-500/30 grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs text-teal-100">
             <div className="flex items-center gap-2">
-              <Award className="w-4 h-4 text-[#d6a982] shrink-0" />
-              <span>Licensed Massage Therapist (LMT)</span>
+              <Award className="w-4 h-4 text-amber-300 shrink-0" />
+              <span>Accredited Remedial &amp; Swedish Therapists</span>
             </div>
             <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-[#d6a982] shrink-0" />
-              <span>Board Certified &amp; Insured</span>
+              <ShieldCheck className="w-4 h-4 text-amber-300 shrink-0" />
+              <span>National Police Vetted &amp; Insured</span>
             </div>
             <div className="flex items-center gap-2">
-              <HeartHandshake className="w-4 h-4 text-[#d6a982] shrink-0" />
-              <span>Pressure guided by you at every step</span>
+              <UserCheck className="w-4 h-4 text-amber-300 shrink-0" />
+              <span>Partnered with 800+ 4 &amp; 5 Star Hotels</span>
             </div>
             <div className="flex items-center gap-2">
-              <Check className="w-4 h-4 text-[#d6a982] shrink-0" />
-              <span>Itemized insurance receipts provided</span>
+              <CheckCircle2 className="w-4 h-4 text-amber-300 shrink-0" />
+              <span>Private Health Fund Rebates Available</span>
             </div>
           </div>
 
-          <div className="mt-8">
+          <div className="mt-8 flex flex-wrap items-center gap-4">
             <button
               onClick={onOpenBooking}
-              className="group inline-flex items-center gap-2 rounded-full bg-[#f3eee3] px-6 py-3 text-xs font-medium text-[#29483c] transition-colors hover:bg-white"
+              className="flex items-center gap-2 rounded-full bg-white text-[#004e57] hover:bg-teal-50 px-7 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider shadow-lg transition-all active:scale-95 cursor-pointer"
             >
-              <span>Schedule with Masud</span>
-              <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <span>Book a Qualified Therapist</span>
+              <ArrowUpRight className="w-4 h-4" />
             </button>
+            <span className="text-xs text-teal-200">Available 7 Days, 8am – 10pm</span>
           </div>
 
         </div>
