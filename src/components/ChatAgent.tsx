@@ -13,6 +13,7 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import { STUDIO_INFO } from '../data/massageData';
+import { generateDynamicChatResponse } from '../utils/dynamicChatEngine';
 
 interface ChatMessage {
   id: string;
@@ -104,30 +105,18 @@ How can I assist you with treatments, pricing, or hotel room visits today?`,
 
       setMessages((prev) => [...prev, botMessage]);
     } catch {
-      // Dynamic fallback based on user query
-      let dynamicReply = `Shairu provides 5-star mobile in-room and at-home massages across Australia 7 days a week (8:00 AM – 10:00 PM).
-Pricing: $100 (1h) · $140 (1.5h) · $170 (2h) across all 6 treatments.
-For instant dispatch, message our team on WhatsApp at +61 433 556 409!`;
-
-      const q = textToSend.toLowerCase();
-      if (q.includes('price') || q.includes('cost') || q.includes('rate') || q.includes('how much')) {
-        dynamicReply = `All 6 Shairu massage treatments have simple, transparent pricing:\n• 1 Hour: $100\n• 1.5 Hours: $140\n• 2 Hours: $170\nIncludes heated table setup, organic oils, and fresh linens with no travel fee in major metro areas!`;
-      } else if (q.includes('hotel') || q.includes('room')) {
-        dynamicReply = `Yes! We specialize in 5-star hotel in-room visits across Australia. Our certified therapist arrives directly at your room with a heated table and fresh linens. Available 8am–10pm daily!`;
-      } else if (q.includes('deep tissue')) {
-        dynamicReply = `Our Deep Tissue Massage focuses on releasing chronic muscle tightness, knots, and sports tension with firm, targeted pressure ($100 / $140 / $170).`;
-      } else if (q.includes('head') || q.includes('migraine')) {
-        dynamicReply = `Our Indian Head Massage targets scalp, neck, and shoulder pressure points to dissolve mental fatigue, brain fog, and headaches ($100 / $140 / $170).`;
-      } else if (q.includes('couple') || q.includes('two')) {
-        dynamicReply = `We offer back-to-back or side-by-side couples massages for hotel and home visits. Message +61 433 556 409 on WhatsApp to check availability!`;
-      }
+      // Dynamic intelligent fallback based on user query
+      const dynamicResult = generateDynamicChatResponse(
+        textToSend,
+        messages.slice(-5).map((m) => ({ sender: m.sender, text: m.text }))
+      );
 
       const fallbackReply: ChatMessage = {
         id: `bot-${Date.now()}`,
         sender: 'bot',
-        text: dynamicReply,
+        text: dynamicResult.reply,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        grounded: false,
+        grounded: dynamicResult.grounded,
       };
       setMessages((prev) => [...prev, fallbackReply]);
     } finally {

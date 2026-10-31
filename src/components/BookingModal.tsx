@@ -233,13 +233,7 @@ export function BookingModal({
     const generatedWhatsappUrl = `https://wa.me/61433556409?text=${encodeURIComponent(orderMessage)}`;
     setWhatsappOrderUrl(generatedWhatsappUrl);
 
-    // Direct trigger to open WhatsApp with safe fallback
-    try {
-      window.open(generatedWhatsappUrl, '_blank', 'noopener,noreferrer');
-    } catch {
-      // Handled in Step 4 view with direct unblockable button
-    }
-
+    // Transition smoothly to Step 4 confirmation with direct WhatsApp order action
     setStep(4);
   };
 

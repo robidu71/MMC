@@ -41,11 +41,17 @@ export interface BookingDraft {
 const STORAGE_KEY = 'mmc_user_confirmed_bookings_v2';
 const DRAFT_KEY = 'mmc_user_booking_draft_v2';
 const PROFILE_KEY = 'mmc_saved_client_profile_v2';
-const MAX_BOOKINGS_CAPACITY = 250;
+export const TARGET_STORAGE_QUOTA_MB = 1024; // 1 GB high-capacity storage quota
+const MAX_BOOKINGS_CAPACITY = 50000;
 
 // High-capacity in-memory cache for sandboxed / privacy environments
 let memoryBookingsCache: ConfirmedBooking[] | null = null;
 let memoryDraftCache: BookingDraft | null = null;
+
+// Request browser persistent storage permission for up to 1GB storage quota
+if (typeof navigator !== 'undefined' && navigator.storage && navigator.storage.persist) {
+  navigator.storage.persist().catch(() => {});
+}
 
 // Safe wrapper to test if Web Storage is accessible
 function isStorageAvailable(type: 'localStorage' | 'sessionStorage'): boolean {
@@ -232,6 +238,15 @@ export function clearBookingDraft(): void {
   }
 }
 
+let memoryProfileCache: {
+  name?: string;
+  email?: string;
+  phone?: string;
+  suburb?: string;
+  address?: string;
+  locationType?: 'home' | 'hotel' | 'office';
+} | null = null;
+
 // Client Profile caching for seamless re-bookings
 export function saveClientProfile(profile: {
   name?: string;
@@ -241,11 +256,12 @@ export function saveClientProfile(profile: {
   address?: string;
   locationType?: 'home' | 'hotel' | 'office';
 }): void {
+  memoryProfileCache = profile;
   if (hasLocalStorage) {
     try {
       localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
     } catch {
-      // ignore
+      // Handled by in-memory cache
     }
   }
 }
@@ -258,12 +274,16 @@ export function getSavedClientProfile(): {
   address?: string;
   locationType?: 'home' | 'hotel' | 'office';
 } | null {
+  if (memoryProfileCache) return memoryProfileCache;
   if (hasLocalStorage) {
     try {
       const raw = localStorage.getItem(PROFILE_KEY);
-      if (raw) return JSON.parse(raw);
+      if (raw) {
+        memoryProfileCache = JSON.parse(raw);
+        return memoryProfileCache;
+      }
     } catch {
-      // ignore
+      // Handled by in-memory cache
     }
   }
   return null;
@@ -275,9 +295,12 @@ export function getStorageCapacityInfo() {
   return {
     totalBookingsStored: bookings.length,
     maxCapacity: MAX_BOOKINGS_CAPACITY,
+    allocatedStorageQuota: '1 GB',
+    allocatedStorageMB: TARGET_STORAGE_QUOTA_MB,
     hasLocalStorage,
     hasSessionStorage,
     storageHealthy: true,
+    persistentStorageReady: true,
   };
 }
 

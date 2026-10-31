@@ -53,10 +53,10 @@ export function Navbar({ onOpenBooking }: NavbarProps) {
   return (
     <header className="sticky top-0 z-50 bg-[#faf9f5]/95 border-b border-[#e5dfd5] shadow-xs backdrop-blur-md">
       {/* Main Navigation Bar */}
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-4 sm:px-8 py-3.5 sm:py-4">
+      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-4 sm:px-8 py-2.5 sm:py-3">
         
         {/* Shairu Brand Signature Logo */}
-        <a href="#home" aria-label="Shairu Mobile Massage Australia Home" className="shrink-0">
+        <a href="#home" aria-label="Shairu Mobile Massage Australia Home" className="shrink-0 transition-opacity hover:opacity-90">
           <MMCLogo variant="full" />
         </a>
 

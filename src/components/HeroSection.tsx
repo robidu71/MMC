@@ -1,6 +1,6 @@
 import { ArrowDown, ArrowUpRight, MapPin, Building2, Home, CheckCircle2, Sparkles, Phone, MessageCircle, ShieldCheck, Award } from 'lucide-react';
 import { STUDIO_INFO, SYDNEY_AREAS } from '../data/massageData';
-import massageHeroLive from '../assets/images/massage_therapy_live_motion_1793437685128.jpg';
+import maleTherapistHero from '../assets/images/male_therapist_hero_1793442078625.jpg';
 
 interface HeroSectionProps {
   onOpenBooking: () => void;
@@ -16,24 +16,26 @@ export function HeroSection({ onOpenBooking, onExploreTreatments }: HeroSectionP
         
         {/* Animated living massage photo: gentle continuous zoom & pan simulating relaxing hands-on motion */}
         <img
-          src={massageHeroLive}
-          alt="Certified Shairu therapist administering relaxing mobile massage therapy to client"
+          src={maleTherapistHero}
+          alt="Certified male massage therapist with 10+ years experience administering mobile massage therapy in Australia"
+          loading="eager"
+          decoding="async"
           className="absolute inset-0 h-full w-full object-cover object-center filter brightness-[0.93] contrast-[1.05] saturate-[1.1] animate-massage-motion"
         />
 
         {/* Soothing rhythmic stroke ripple effect centered near the hands-on massage contact zone */}
-        <div aria-hidden="true" className="absolute top-[58%] left-[54%] -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10 hidden sm:block">
+        <div aria-hidden="true" className="absolute top-[52%] left-[48%] -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10 hidden sm:block">
           <div className="w-24 h-24 rounded-full border-2 border-emerald-300/40 animate-stroke-wave-1" />
           <div className="w-24 h-24 rounded-full border border-[#cfa052]/40 animate-stroke-wave-2" />
         </div>
 
         {/* Live session floating indicator */}
-        <div className="absolute top-4 left-4 sm:top-6 sm:left-8 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/45 backdrop-blur-md border border-white/20 text-white text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase shadow-md">
+        <div className="absolute top-4 left-4 sm:top-6 sm:left-8 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/55 backdrop-blur-md border border-white/20 text-white text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase shadow-md">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
           </span>
-          <span>Therapist In Session · Mobile Sanctuary</span>
+          <span>Senior Male Therapist · 10+ Years Experience</span>
         </div>
 
         {/* Cinematic ambient overlays for soft warmth and perfect readability */}
@@ -44,7 +46,7 @@ export function HeroSection({ onOpenBooking, onExploreTreatments }: HeroSectionP
         <div className="relative z-10 max-w-5xl mx-auto px-4 text-center text-white flex flex-col items-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-3 sm:mb-4 shadow-sm">
             <span className="text-[10px] sm:text-xs font-semibold tracking-[0.24em] uppercase text-emerald-300">
-              5-Star In-Room &amp; Mobile Massage Sanctuary
+              10+ Years Experienced Certified Male Therapist · In-Room &amp; Mobile
             </span>
           </div>
 
@@ -78,37 +80,37 @@ export function HeroSection({ onOpenBooking, onExploreTreatments }: HeroSectionP
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 mb-3.5 border-b border-[#285244]/30">
                 <p className="text-[11px] font-bold tracking-wider uppercase text-[#285244]">
-                  SHAIRU MOBILE MASSAGE · AUSTRALIA-WIDE DISPATCH
+                  SHAIRU MOBILE MASSAGE · SENIOR MALE THERAPIST (10+ YEARS EXPERIENCE)
                 </p>
               </div>
 
               <h2 className="font-sans font-extrabold text-2xl sm:text-3xl md:text-4xl tracking-tight text-[#1a3127] mb-4 leading-tight">
-                Professional Day-Spa Treatments Delivered Directly to Your Room
+                5-Star In-Room &amp; Mobile Massage by Senior Male Therapist
               </h2>
 
               <p className="text-base sm:text-lg leading-relaxed text-[#475b51] mb-6 font-light">
-                Enjoy 5-star relaxation without leaving your room. Our certified, professional therapists bring everything to your door—a heated memory-foam table, fresh organic linens, natural botanical oils, and soothing ambient music. Available 7 days a week from 8:00 AM to 10:00 PM for private homes, executive apartments, and luxury hotel suites across Australia.
+                Enjoy world-class therapeutic recovery without leaving your room. Administered by our certified senior male therapist with over <strong>10 years of professional clinical, remedial, and luxury hotel experience</strong>, we bring the entire day-spa experience directly to your door—a commercial heated massage table, fresh Egyptian cotton linens, warm botanical oils, and serene soundscapes. Available 7 days a week (8:00 AM – 10:00 PM) for hotel suites and private homes across Australia.
               </p>
 
               {/* Feature Cards */}
               <div className="grid sm:grid-cols-2 gap-3.5 mb-6">
                 <div className="flex items-start gap-3 p-4 rounded-xl bg-white border border-[#ded8cc] shadow-xs">
                   <div className="w-10 h-10 rounded-full bg-[#eef4f0] flex items-center justify-center text-[#285244] shrink-0 font-bold border border-[#d2e2d8]">
-                    <Building2 className="w-5 h-5" />
+                    <Award className="w-5 h-5 text-[#285244]" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-[#1a3127] uppercase">Hotel In-Room Service</h4>
-                    <p className="text-xs text-[#5a7065] mt-0.5">Trusted by Australia’s 4 &amp; 5 star hotels with seamless room delivery.</p>
+                    <h4 className="text-xs font-bold text-[#1a3127] uppercase">10+ Years Senior Practitioner</h4>
+                    <p className="text-xs text-[#5a7065] mt-0.5">Accredited remedial &amp; Swedish expertise with a decade of 5-star hotel service.</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3 p-4 rounded-xl bg-white border border-[#ded8cc] shadow-xs">
                   <div className="w-10 h-10 rounded-full bg-[#eef4f0] flex items-center justify-center text-[#285244] shrink-0 font-bold border border-[#d2e2d8]">
-                    <Home className="w-5 h-5" />
+                    <Building2 className="w-5 h-5 text-[#285244]" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-[#1a3127] uppercase">At-Home Comfort</h4>
-                    <p className="text-xs text-[#5a7065] mt-0.5">We bring the full setup: heated table, organic cotton linen &amp; soundscapes.</p>
+                    <h4 className="text-xs font-bold text-[#1a3127] uppercase">Hotel &amp; In-Home Visits</h4>
+                    <p className="text-xs text-[#5a7065] mt-0.5">Heated memory-foam table, organic cotton sheets &amp; warm botanical oils.</p>
                   </div>
                 </div>
               </div>

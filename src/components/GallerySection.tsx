@@ -41,6 +41,8 @@ export function GallerySection({ onBookSession }: GallerySectionProps) {
                   <img
                     src={space.imageSrc}
                     alt={space.title}
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                   />
                 ) : (

@@ -4,8 +4,8 @@ export const STUDIO_INFO = {
   name: 'Shairu',
   shortName: 'Shairu Mobile Massage',
   tagline: 'Mobile Massage Australia',
-  heroSubtitle: 'Space to soften, delivered to your door',
-  heroDesc: 'Enjoy 5-star relaxation without leaving your room. Our certified, professional therapists bring everything to your door—a heated memory-foam table, fresh organic linens, natural botanical oils, and soothing ambient music. Available 7 days a week from 8:00 AM to 10:00 PM for private homes, executive apartments, and luxury hotel suites across Australia.',
+  heroSubtitle: 'Certified Male Therapist · 10+ Years Experience',
+  heroDesc: 'Enjoy 5-star relaxation delivered directly to your room by our certified senior male therapist with 10+ years of professional clinical and luxury spa experience. We bring everything to your door—a heated memory-foam table, fresh organic linens, natural botanical oils, and soothing ambient music. Available 7 days a week from 8:00 AM to 10:00 PM for luxury hotel suites, private apartments, and homes across Australia.',
   address: 'Mobile Service across Australia (Sydney, Melbourne, Brisbane & metro hubs)',
   city: 'Australia',
   phone: '+61 433 556 409',
@@ -38,8 +38,8 @@ export const MOBILE_PERKS = [
   },
   {
     icon: 'certified',
-    title: 'Vetted & Qualified',
-    desc: 'Fully insured, certified remedial & relaxation therapists with continuous background checks.',
+    title: '10+ Years Experienced Male Therapist',
+    desc: 'Accredited Australian qualifications, 10+ years of clinical & 5-star spa expertise, police-vetted and fully insured.',
   },
   {
     icon: 'clock',

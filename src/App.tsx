@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { ServicesSection } from './components/ServicesSection';
-import { PractitionerSection } from './components/PractitionerSection';
 import { GallerySection } from './components/GallerySection';
 import { ReviewsAndFaq } from './components/ReviewsAndFaq';
 import { BookingSection } from './components/BookingSection';
@@ -52,11 +51,6 @@ export default function App() {
         {/* 4 Core Services & 6 Treatments Pricing ($100 for 1h, $140 for 1.5h, $170 for 2h) */}
         <ServicesSection
           onSelectServiceForBooking={(serviceId, duration) => handleOpenBooking(serviceId, duration)}
-        />
-
-        {/* Certified Therapists & 30+ Years Standards */}
-        <PractitionerSection
-          onOpenBooking={() => handleOpenBooking()}
         />
 
         {/* In-Room Setup & Sanctuary Transformation */}

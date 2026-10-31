@@ -135,21 +135,21 @@ export function MMCLogo({
 
   // Full Header Brand Logo (Primary Nav)
   return (
-    <div className={`flex items-center gap-3 sm:gap-4 select-none group py-0.5 ${className}`}>
+    <div className={`flex items-center gap-2.5 sm:gap-3 select-none group py-0.5 ${className}`}>
       {/* Brand Emblem */}
-      <div className="w-10 sm:w-12 h-10 sm:h-12 shrink-0">
+      <div className="w-8 sm:w-9.5 h-8 sm:h-9.5 shrink-0">
         {renderEmblem()}
       </div>
 
       {/* Brand Typography */}
       <div className="flex flex-col justify-center">
-        <div className="flex items-center gap-1 font-sans font-black text-2xl sm:text-3xl tracking-[0.15em] text-[#285244] leading-none transition-colors group-hover:text-[#1b352b]">
+        <div className="flex items-center gap-1 font-sans font-black text-xl sm:text-2xl tracking-[0.14em] text-[#285244] leading-none transition-colors group-hover:text-[#1b352b]">
           <span>SHAIRU</span>
-          <span className="text-xs font-bold text-amber-500 self-start -mt-0.5">®</span>
+          <span className="text-[10px] sm:text-xs font-bold text-amber-500 self-start -mt-0.5">®</span>
         </div>
-        <div className="flex items-center gap-1.5 mt-1">
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
-          <span className="text-[9px] sm:text-[10px] tracking-[0.24em] uppercase font-bold text-slate-500 transition-colors group-hover:text-slate-700">
+        <div className="flex items-center gap-1 mt-0.5 sm:mt-1">
+          <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-amber-400 shrink-0" />
+          <span className="text-[8px] sm:text-[9px] tracking-[0.22em] uppercase font-bold text-slate-500 transition-colors group-hover:text-slate-700">
             Mobile Massage &amp; Spa
           </span>
         </div>

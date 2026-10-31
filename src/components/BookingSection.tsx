@@ -46,7 +46,7 @@ export function BookingSection({ onOpenBookingModal }: BookingSectionProps) {
   const handleDownloadCalendar = (booking: ConfirmedBooking) => {
     const loc = booking.deliveryAddress ? `${booking.deliveryAddress}, ${booking.sydneySuburb || 'Sydney'}` : STUDIO_INFO.address;
     const title = `Shairu Mobile Massage: ${booking.serviceTitle}`;
-    const desc = `Booking Ref: ${booking.refCode}\\nService: ${booking.serviceTitle} (${booking.durationMinutes} min - $${booking.price})\\nLocation: ${loc}\\nClient: ${booking.clientName}\\nPhone: 1300 742 478`;
+    const desc = `Booking Ref: ${booking.refCode}\\nService: ${booking.serviceTitle} (${booking.durationMinutes} min - $${booking.price})\\nLocation: ${loc}\\nClient: ${booking.clientName}\\nPhone: ${STUDIO_INFO.phoneDisplay}`;
     const icsContent = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
