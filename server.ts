@@ -10,7 +10,7 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const SHAIRU_SYSTEM_PROMPT = `You are "Shairu AI Concierge", the official virtual assistant for Shairu Mobile Massage Australia.
+const SHAIRU_SYSTEM_PROMPT = `You are "SHAIRU Chat", the official virtual assistant for Shairu Mobile Massage Australia.
 You provide warm, polite, luxury 5-star customer service to clients looking for mobile massage and spa therapies delivered directly to their hotel room, home, or executive apartment across Australia.
 
 CRITICAL INSTRUCTION ON BOOKINGS & WEBSITES:
@@ -184,6 +184,36 @@ Pricing is unified across all treatments:
 Our certified therapists bring heated tables, fresh luxury linens, and organic oils. Would you like to book a session now, or ask about a specific treatment? You can also message our team instantly on WhatsApp at +61 433 556 409!`;
 }
 
+// In-memory rate limiting map for IP protection
+const ipRateLimits = new Map<string, { count: number; resetTime: number }>();
+
+function checkRateLimit(ip: string, limit = 30, windowMs = 60 * 1000): boolean {
+  const now = Date.now();
+  const clientData = ipRateLimits.get(ip);
+
+  if (!clientData || now > clientData.resetTime) {
+    ipRateLimits.set(ip, { count: 1, resetTime: now + windowMs });
+    return true;
+  }
+
+  if (clientData.count >= limit) {
+    return false;
+  }
+
+  clientData.count += 1;
+  return true;
+}
+
+// Clean up stale rate limits every 5 minutes
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, data] of ipRateLimits.entries()) {
+    if (now > data.resetTime) {
+      ipRateLimits.delete(ip);
+    }
+  }
+}, 5 * 60 * 1000);
+
 // Track temporary quota limits on search grounding to ensure sub-second response times
 let searchGroundingBackoffUntil = 0;
 
@@ -191,7 +221,23 @@ async function startServer() {
   const app = express();
   const PORT = Number(process.env.PORT) || 3000;
 
-  app.use(express.json());
+  // Security: Limit request body to prevent memory exhaustion / DoS
+  app.use(express.json({ limit: '30kb' }));
+
+  // Security: Essential HTTP response headers for protection against XSS and MIME sniffing
+  // Allows embedding seamlessly inside Google Sites (sites.google.com), custom domains, and AI Studio
+  app.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    res.setHeader('Permissions-Policy', 'camera=(), microphone=(), payment=()');
+    // Content-Security-Policy frame-ancestors: Allows Google Sites iframe embedding while protecting against malicious framing
+    res.setHeader(
+      'Content-Security-Policy',
+      "frame-ancestors 'self' https://sites.google.com https://*.google.com https://*.googleusercontent.com https://*.run.app https://* http://*;"
+    );
+    next();
+  });
 
   // Health check endpoint
   app.get('/api/health', (req, res) => {
@@ -200,37 +246,61 @@ async function startServer() {
 
   // AI Chat Assistant endpoint with multi-tier Google & Gemini intelligence
   app.post('/api/chat', async (req, res) => {
+    const clientIp = (req.headers['x-forwarded-for'] as string) || req.socket.remoteAddress || 'unknown';
+
+    // Security: Rate limiting check (max 30 requests per minute per IP)
+    if (!checkRateLimit(clientIp, 30, 60 * 1000)) {
+      res.status(429).json({
+        error: 'Too many requests. Please wait a moment before sending another message.',
+      });
+      return;
+    }
+
     const { message, history } = req.body;
 
+    // Security: Input validation & length bounding to prevent token exhaustion / memory spikes
     if (!message || typeof message !== 'string') {
-      res.status(400).json({ error: 'Message is required' });
+      res.status(400).json({ error: 'Message is required and must be text' });
+      return;
+    }
+
+    const trimmedMessage = message.trim();
+    if (trimmedMessage.length === 0) {
+      res.status(400).json({ error: 'Message cannot be empty' });
+      return;
+    }
+
+    if (trimmedMessage.length > 1500) {
+      res.status(400).json({ error: 'Message exceeds maximum length of 1500 characters' });
       return;
     }
 
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
-      const reply = getContextualFallback(message);
+      const reply = getContextualFallback(trimmedMessage);
       res.json({ reply, grounded: false });
       return;
     }
 
-    // Format previous conversation context if provided
+    // Format previous conversation context safely with bounded strings
     const contents: Array<{ role: 'user' | 'model'; parts: Array<{ text: string }> }> = [];
 
     if (Array.isArray(history)) {
       for (const item of history.slice(-6)) {
-        if (item.sender === 'user' && item.text) {
-          contents.push({ role: 'user', parts: [{ text: item.text }] });
-        } else if (item.sender === 'bot' && item.text) {
-          contents.push({ role: 'model', parts: [{ text: item.text }] });
+        if (item && typeof item === 'object') {
+          if (item.sender === 'user' && typeof item.text === 'string') {
+            contents.push({ role: 'user', parts: [{ text: item.text.slice(0, 1000) }] });
+          } else if (item.sender === 'bot' && typeof item.text === 'string') {
+            contents.push({ role: 'model', parts: [{ text: item.text.slice(0, 1000) }] });
+          }
         }
       }
     }
 
     contents.push({
       role: 'user',
-      parts: [{ text: message }],
+      parts: [{ text: trimmedMessage }],
     });
 
     const ai = new GoogleGenAI({

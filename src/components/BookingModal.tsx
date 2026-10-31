@@ -72,6 +72,10 @@ export function BookingModal({
   const [bookingRef, setBookingRef] = useState<string>('');
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
 
+  // WhatsApp Direct Order State
+  const [whatsappOrderUrl, setWhatsappOrderUrl] = useState<string>('');
+  const [copiedOrder, setCopiedOrder] = useState<boolean>(false);
+
   useEffect(() => {
     if (isOpen) {
       if (initialServiceId) {
@@ -101,6 +105,8 @@ export function BookingModal({
     setClientPhone('');
     setNotes('');
     setFormErrors({});
+    setWhatsappOrderUrl('');
+    setCopiedOrder(false);
   };
 
   const handleCloseAndReset = () => {
@@ -199,21 +205,59 @@ export function BookingModal({
     };
     saveStoredBooking(newBooking);
 
-    // Automatically trigger WhatsApp booking
+    // Build the complete, professional WhatsApp Order Message
     const loc = deliveryAddress.trim() ? `${deliveryAddress.trim()} (${sydneySuburb})` : sydneySuburb;
-    const msg = `Hi Shairu Mobile Massage Australia! I would like to book a visit:
-• Reference: ${generatedRef}
-• Treatment: ${selectedService.title} (${selectedDuration} min - $${currentDurationPrice} AUD)
-• Location: ${locationType === 'hotel' ? 'Hotel Room' : 'Home'}: ${loc}
-• Preferred Arrival: ${selectedDate} at ${selectedTimeSlot}
-• Client: ${clientName.trim()} (${clientPhone.trim()})
-${notes.trim() ? `• Notes: ${notes.trim()}` : ''}
-Please confirm therapist dispatch.`;
+    const locationLabel = locationType === 'hotel' ? 'Hotel Suite / Room' : locationType === 'home' ? 'Residential Home' : 'Corporate Office';
+    
+    const orderMessage = [
+      `🌿 *SHAIRU MOBILE MASSAGE AUSTRALIA*`,
+      `📋 *Booking Reference:* ${generatedRef}`,
+      `━━━━━━━━━━━━━━━━━━━━━━`,
+      `💆 *Treatment:* ${selectedService.title}`,
+      `⏱️ *Duration:* ${selectedDuration} min ($${currentDurationPrice} AUD flat rate)`,
+      `🏨 *Location Type:* ${locationLabel}`,
+      `📍 *Address:* ${loc}`,
+      `📅 *Preferred Date:* ${selectedDate}`,
+      `⏰ *Arrival Window:* ${selectedTimeSlot}`,
+      `━━━━━━━━━━━━━━━━━━━━━━`,
+      `👤 *Client Name:* ${clientName.trim()}`,
+      `📞 *Phone:* ${clientPhone.trim()}`,
+      `📧 *Email:* ${clientEmail.trim()}`,
+      `✨ *Pressure Depth:* ${pressurePreference}`,
+      `🎯 *Focus Areas:* ${focusAreas.join(', ')}`,
+      notes.trim() ? `📝 *Special Access/Notes:* ${notes.trim()}` : null,
+      `━━━━━━━━━━━━━━━━━━━━━━`,
+      `Please confirm therapist dispatch. Thank you!`,
+    ].filter(Boolean).join('\n');
 
-    const whatsappUrl = `https://wa.me/61433556409?text=${encodeURIComponent(msg)}`;
-    window.open(whatsappUrl, '_blank');
+    const generatedWhatsappUrl = `https://wa.me/61433556409?text=${encodeURIComponent(orderMessage)}`;
+    setWhatsappOrderUrl(generatedWhatsappUrl);
+
+    // Direct trigger to open WhatsApp with safe fallback
+    try {
+      window.open(generatedWhatsappUrl, '_blank', 'noopener,noreferrer');
+    } catch {
+      // Handled in Step 4 view with direct unblockable button
+    }
 
     setStep(4);
+  };
+
+  const handleCopyOrderText = () => {
+    const loc = deliveryAddress.trim() ? `${deliveryAddress.trim()} (${sydneySuburb})` : sydneySuburb;
+    const locationLabel = locationType === 'hotel' ? 'Hotel Suite / Room' : locationType === 'home' ? 'Residential Home' : 'Corporate Office';
+    const orderText = `SHAIRU MOBILE MASSAGE ORDER
+Ref: ${bookingRef}
+Treatment: ${selectedService.title} (${selectedDuration} min - $${currentDurationPrice} AUD)
+Location: ${locationLabel} - ${loc}
+Date & Time: ${selectedDate} at ${selectedTimeSlot}
+Client: ${clientName.trim()} (${clientPhone.trim()})
+Pressure: ${pressurePreference} | Focus: ${focusAreas.join(', ')}
+${notes.trim() ? `Notes: ${notes.trim()}` : ''}`;
+
+    navigator.clipboard?.writeText(orderText);
+    setCopiedOrder(true);
+    setTimeout(() => setCopiedOrder(false), 3000);
   };
 
   const handleDownloadCalendar = () => {
@@ -251,8 +295,8 @@ Please confirm therapist dispatch.`;
         {/* Header Bar */}
         <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
           <div>
-            <div className="text-[11px] font-bold uppercase tracking-wider text-[#007a87] flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-[#007a87]" />
+            <div className="text-[11px] font-bold uppercase tracking-wider text-[#285244] flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-[#285244]" />
               Shairu Mobile Massage Australia
             </div>
             <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mt-0.5">
@@ -281,15 +325,15 @@ Please confirm therapist dispatch.`;
                 <div
                   key={s.num}
                   className={`flex items-center gap-1.5 ${
-                    step === s.num ? 'font-bold text-[#007a87]' : 'text-slate-500'
+                    step === s.num ? 'font-bold text-[#285244]' : 'text-slate-500'
                   }`}
                 >
                   <span
                     className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
                       step === s.num
-                        ? 'bg-[#007a87] text-white'
+                        ? 'bg-[#285244] text-white'
                         : s.num < step
-                        ? 'bg-teal-100 text-[#007a87]'
+                        ? 'bg-teal-100 text-[#285244]'
                         : 'bg-slate-200 text-slate-600'
                     }`}
                   >
@@ -300,7 +344,7 @@ Please confirm therapist dispatch.`;
               ))}
             </div>
 
-            <div className="text-base font-extrabold text-[#007a87] tabular-nums">
+            <div className="text-base font-extrabold text-[#285244] tabular-nums">
               ${currentDurationPrice} AUD
             </div>
           </div>
@@ -327,14 +371,14 @@ Please confirm therapist dispatch.`;
                       }}
                       className={`p-3.5 rounded-xl text-left border transition-all cursor-pointer ${
                         selectedServiceId === s.id
-                          ? 'bg-teal-50/80 border-[#007a87] shadow-sm ring-1 ring-[#007a87]'
+                          ? 'bg-teal-50/80 border-[#285244] shadow-sm ring-1 ring-[#285244]'
                           : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-white'
                       }`}
                     >
-                      <div className="text-[10px] font-bold uppercase text-[#007a87] mb-1">{s.num}</div>
+                      <div className="text-[10px] font-bold uppercase text-[#285244] mb-1">{s.num}</div>
                       <div className="text-base font-bold text-slate-900 mb-1 leading-snug">{s.title}</div>
                       <div className="text-[11px] text-slate-500 line-clamp-2 font-light">{s.detail}</div>
-                      <div className="mt-2 text-[11px] font-bold text-[#007a87] pt-2 border-t border-slate-200/80">
+                      <div className="mt-2 text-[11px] font-bold text-[#285244] pt-2 border-t border-slate-200/80">
                         {s.durations}
                       </div>
                     </button>
@@ -355,12 +399,12 @@ Please confirm therapist dispatch.`;
                       onClick={() => setSelectedOptionIndex(idx)}
                       className={`p-3 rounded-xl text-center border transition-all cursor-pointer ${
                         selectedOptionIndex === idx
-                          ? 'bg-[#007a87] text-white border-[#007a87] shadow-sm ring-1 ring-[#007a87]'
+                          ? 'bg-[#285244] text-white border-[#285244] shadow-sm ring-1 ring-[#285244]'
                           : 'bg-slate-50 border-slate-200 text-slate-800 hover:bg-white'
                       }`}
                     >
                       <div className="font-semibold text-xs">{opt.label}</div>
-                      <div className={`text-lg font-black mt-1 ${selectedOptionIndex === idx ? 'text-amber-300' : 'text-[#007a87]'}`}>
+                      <div className={`text-lg font-black mt-1 ${selectedOptionIndex === idx ? 'text-amber-300' : 'text-[#285244]'}`}>
                         ${opt.price}
                       </div>
                     </button>
@@ -373,7 +417,7 @@ Please confirm therapist dispatch.`;
                 <div className="font-bold text-slate-800 mb-1">Included with every Sydney mobile visit:</div>
                 {selectedService.included.map((inc, i) => (
                   <div key={i} className="flex items-center gap-2">
-                    <Check className="w-3.5 h-3.5 text-[#007a87] shrink-0" />
+                    <Check className="w-3.5 h-3.5 text-[#285244] shrink-0" />
                     <span>{inc}</span>
                   </div>
                 ))}
@@ -395,7 +439,7 @@ Please confirm therapist dispatch.`;
                     onClick={() => setLocationType('hotel')}
                     className={`p-3 rounded-xl text-center border text-xs transition-all cursor-pointer flex flex-col items-center gap-1.5 ${
                       locationType === 'hotel'
-                        ? 'bg-[#007a87] text-white border-[#007a87] font-bold shadow-xs'
+                        ? 'bg-[#285244] text-white border-[#285244] font-bold shadow-xs'
                         : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-white'
                     }`}
                   >
@@ -408,7 +452,7 @@ Please confirm therapist dispatch.`;
                     onClick={() => setLocationType('home')}
                     className={`p-3 rounded-xl text-center border text-xs transition-all cursor-pointer flex flex-col items-center gap-1.5 ${
                       locationType === 'home'
-                        ? 'bg-[#007a87] text-white border-[#007a87] font-bold shadow-xs'
+                        ? 'bg-[#285244] text-white border-[#285244] font-bold shadow-xs'
                         : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-white'
                     }`}
                   >
@@ -421,7 +465,7 @@ Please confirm therapist dispatch.`;
                     onClick={() => setLocationType('office')}
                     className={`p-3 rounded-xl text-center border text-xs transition-all cursor-pointer flex flex-col items-center gap-1.5 ${
                       locationType === 'office'
-                        ? 'bg-[#007a87] text-white border-[#007a87] font-bold shadow-xs'
+                        ? 'bg-[#285244] text-white border-[#285244] font-bold shadow-xs'
                         : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-white'
                     }`}
                   >
@@ -441,7 +485,7 @@ Please confirm therapist dispatch.`;
                     <select
                       value={sydneySuburb}
                       onChange={(e) => setSydneySuburb(e.target.value)}
-                      className="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 border border-slate-200 text-slate-800 outline-hidden focus:border-[#007a87]"
+                      className="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 border border-slate-200 text-slate-800 outline-hidden focus:border-[#285244]"
                     >
                       {SYDNEY_AREAS.map((a) => (
                         <option key={a} value={a}>
@@ -461,7 +505,7 @@ Please confirm therapist dispatch.`;
                       placeholder={locationType === 'hotel' ? 'e.g. Crown Sydney, Room 2201' : 'e.g. 24 Ocean Ave, Double Bay'}
                       value={deliveryAddress}
                       onChange={(e) => setDeliveryAddress(e.target.value)}
-                      className="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 border border-slate-200 text-slate-800 outline-hidden focus:border-[#007a87]"
+                      className="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 border border-slate-200 text-slate-800 outline-hidden focus:border-[#285244]"
                     />
                     {formErrors.address && <p className="text-[11px] text-rose-600 mt-1">{formErrors.address}</p>}
                   </div>
@@ -481,7 +525,7 @@ Please confirm therapist dispatch.`;
                       onClick={() => setSelectedDate(d.full)}
                       className={`p-2 rounded-lg text-center border text-xs transition-all cursor-pointer ${
                         selectedDate === d.full
-                          ? 'bg-[#007a87] text-white border-[#007a87] font-bold shadow-xs'
+                          ? 'bg-[#285244] text-white border-[#285244] font-bold shadow-xs'
                           : 'bg-slate-50 border-slate-200 text-slate-800 hover:bg-white'
                       }`}
                     >
@@ -506,7 +550,7 @@ Please confirm therapist dispatch.`;
                       onClick={() => setSelectedTimeSlot(slot)}
                       className={`py-2 px-2.5 rounded-lg text-xs font-medium border text-center transition-all cursor-pointer ${
                         selectedTimeSlot === slot
-                          ? 'bg-[#007a87] text-white border-[#007a87] font-bold shadow-xs'
+                          ? 'bg-[#285244] text-white border-[#285244] font-bold shadow-xs'
                           : 'bg-slate-50 border-slate-200 text-slate-800 hover:bg-white'
                       }`}
                     >
@@ -533,7 +577,7 @@ Please confirm therapist dispatch.`;
                     placeholder="Full Name *"
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
-                    className="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 border border-slate-200 text-slate-800 outline-hidden focus:border-[#007a87]"
+                    className="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 border border-slate-200 text-slate-800 outline-hidden focus:border-[#285244]"
                   />
                   {formErrors.name && <p className="text-[11px] text-rose-600 mt-1">{formErrors.name}</p>}
                 </div>
@@ -546,7 +590,7 @@ Please confirm therapist dispatch.`;
                       placeholder="Email address for confirmation *"
                       value={clientEmail}
                       onChange={(e) => setClientEmail(e.target.value)}
-                      className="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 border border-slate-200 text-slate-800 outline-hidden focus:border-[#007a87]"
+                      className="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 border border-slate-200 text-slate-800 outline-hidden focus:border-[#285244]"
                     />
                     {formErrors.email && <p className="text-[11px] text-rose-600 mt-1">{formErrors.email}</p>}
                   </div>
@@ -558,7 +602,7 @@ Please confirm therapist dispatch.`;
                       placeholder="Mobile Phone (for arrival SMS) *"
                       value={clientPhone}
                       onChange={(e) => setClientPhone(e.target.value)}
-                      className="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 border border-slate-200 text-slate-800 outline-hidden focus:border-[#007a87]"
+                      className="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 border border-slate-200 text-slate-800 outline-hidden focus:border-[#285244]"
                     />
                     {formErrors.phone && <p className="text-[11px] text-rose-600 mt-1">{formErrors.phone}</p>}
                   </div>
@@ -578,7 +622,7 @@ Please confirm therapist dispatch.`;
                       onClick={() => setPressurePreference(p)}
                       className={`p-2 text-xs rounded-lg border text-center cursor-pointer ${
                         pressurePreference === p
-                          ? 'bg-[#007a87] text-white border-[#007a87] font-bold shadow-xs'
+                          ? 'bg-[#285244] text-white border-[#285244] font-bold shadow-xs'
                           : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-white'
                       }`}
                     >
@@ -601,7 +645,7 @@ Please confirm therapist dispatch.`;
                       onClick={() => toggleFocusArea(area)}
                       className={`px-3 py-1 text-xs rounded-full border cursor-pointer ${
                         focusAreas.includes(area)
-                          ? 'bg-[#007a87] text-white border-[#007a87] font-bold'
+                          ? 'bg-[#285244] text-white border-[#285244] font-bold'
                           : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-white'
                       }`}
                     >
@@ -621,7 +665,7 @@ Please confirm therapist dispatch.`;
                   placeholder="e.g. Hotel guest registered under Smith, visitor parking on basement level 1..."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 border border-slate-200 text-slate-800 outline-hidden focus:border-[#007a87]"
+                  className="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 border border-slate-200 text-slate-800 outline-hidden focus:border-[#285244]"
                 />
               </div>
 
@@ -635,7 +679,7 @@ Please confirm therapist dispatch.`;
           {step === 4 && (
             <div className="space-y-6 animate-in fade-in">
               <div className="p-6 bg-teal-50 border border-teal-200 rounded-xl flex items-start gap-4">
-                <CheckCircle2 className="w-8 h-8 text-[#007a87] shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-8 h-8 text-[#285244] shrink-0 mt-0.5" />
                 <div>
                   <h4 className="text-2xl font-bold text-slate-900">
                     Mobile Visit Confirmed for {clientName}
@@ -648,8 +692,8 @@ Please confirm therapist dispatch.`;
 
               <div className="p-5 bg-white border border-slate-200 rounded-xl space-y-3 text-xs text-slate-700 shadow-xs">
                 <div className="flex justify-between items-center pb-3 border-b border-slate-100">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#007a87]">Booking Reference</span>
-                  <span className="font-mono font-bold text-base text-[#007a87]">{bookingRef}</span>
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#285244]">Booking Reference</span>
+                  <span className="font-mono font-bold text-base text-[#285244]">{bookingRef}</span>
                 </div>
 
                 <div className="flex justify-between">
@@ -673,42 +717,69 @@ Please confirm therapist dispatch.`;
 
                 <div className="flex justify-between pt-2 border-t border-slate-100 font-bold text-slate-900 text-sm">
                   <span>Total Due Upon Completion:</span>
-                  <span className="text-lg font-black text-[#007a87]">${currentDurationPrice} AUD</span>
+                  <span className="text-lg font-black text-[#285244]">${currentDurationPrice} AUD</span>
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-3">
+              {/* Primary Direct WhatsApp Action */}
+              <div className="p-4 sm:p-5 bg-[#eef4f0] rounded-2xl border border-[#285244]/20 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#1a3127] flex items-center gap-1.5">
+                    <MessageCircle className="w-4 h-4 text-[#25D366] fill-[#25D366]" />
+                    WhatsApp Order Ready
+                  </span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider bg-[#25D366] text-white px-2.5 py-0.5 rounded-full shadow-2xs">
+                    Direct Dispatch
+                  </span>
+                </div>
+                <p className="text-xs text-[#475b51] leading-relaxed">
+                  Your customized booking details with reference <strong>{bookingRef}</strong> are ready. Click below to send your complete order directly to our Australian team via WhatsApp:
+                </p>
                 <a
-                  href={`https://wa.me/61433556409?text=Hi%20Shairu%2C%20I%20have%20booked%20${encodeURIComponent(selectedService.title)}%20(${selectedDuration}min)%20for%20${encodeURIComponent(selectedDate)}%20at%20${encodeURIComponent(selectedTimeSlot)}.%20Ref%3A%20${bookingRef || 'NEW'}`}
+                  href={whatsappOrderUrl || `https://wa.me/61433556409`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-full bg-[#25D366] text-white hover:bg-[#20ba59] transition-colors shadow-xs"
+                  className="w-full flex items-center justify-center gap-2.5 py-3.5 px-5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl bg-[#25D366] hover:bg-[#20ba59] active:scale-[0.99] text-white transition-all shadow-md cursor-pointer"
                 >
-                  <MessageCircle className="w-4 h-4 fill-white" />
-                  <span>Send to WhatsApp (+61 433 556 409)</span>
+                  <MessageCircle className="w-5 h-5 fill-white" />
+                  <span>Send Order to WhatsApp (+61 433 556 409)</span>
                 </a>
+              </div>
 
+              {/* Utility actions: Copy text, download calendar, book another */}
+              <div className="flex flex-wrap items-center gap-2.5 pt-2">
                 <button
-                  onClick={handleDownloadCalendar}
-                  className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-full bg-slate-100 text-slate-800 hover:bg-slate-200 transition-colors cursor-pointer"
+                  type="button"
+                  onClick={handleCopyOrderText}
+                  className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 transition-colors cursor-pointer border border-slate-200"
                 >
-                  <Download className="w-4 h-4 text-[#007a87]" />
-                  <span>Download Calendar (.ics)</span>
+                  <span>{copiedOrder ? '✓ Order Details Copied!' : '📋 Copy Order Text'}</span>
                 </button>
 
                 <button
+                  type="button"
+                  onClick={handleDownloadCalendar}
+                  className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold rounded-xl bg-slate-100 text-slate-800 hover:bg-slate-200 transition-colors cursor-pointer border border-slate-200"
+                >
+                  <Download className="w-4 h-4 text-[#285244]" />
+                  <span>Calendar Invite (.ics)</span>
+                </button>
+
+                <button
+                  type="button"
                   onClick={resetState}
-                  className="flex items-center gap-1.5 px-5 py-2 text-xs font-bold uppercase tracking-wider rounded-full bg-[#007a87] text-white hover:bg-[#00636e] transition-colors shadow-xs cursor-pointer"
+                  className="flex items-center gap-1.5 px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded-xl bg-[#285244] text-white hover:bg-[#1e3e33] transition-colors shadow-xs cursor-pointer ml-auto"
                 >
                   <PlusCircle className="w-4 h-4" />
-                  <span>Book Another Visit</span>
+                  <span>New Booking</span>
                 </button>
 
                 <button
+                  type="button"
                   onClick={handleCloseAndReset}
-                  className="px-4 py-2 text-xs font-semibold text-slate-500 hover:text-slate-800 cursor-pointer"
+                  className="px-4 py-2.5 text-xs font-semibold text-slate-500 hover:text-slate-800 cursor-pointer"
                 >
-                  Close Window
+                  Done
                 </button>
               </div>
             </div>
@@ -735,7 +806,7 @@ Please confirm therapist dispatch.`;
               <button
                 type="button"
                 onClick={() => setStep(2)}
-                className="px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-[#007a87] hover:bg-[#00636e] rounded-full flex items-center gap-1.5 shadow-sm cursor-pointer"
+                className="px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-[#285244] hover:bg-[#1e3e33] rounded-full flex items-center gap-1.5 shadow-sm cursor-pointer"
               >
                 <span>Continue to Location</span>
                 <ChevronRight className="w-4 h-4" />
@@ -750,7 +821,7 @@ Please confirm therapist dispatch.`;
                     setStep(3);
                   }
                 }}
-                className="px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-[#007a87] hover:bg-[#00636e] rounded-full flex items-center gap-1.5 shadow-sm cursor-pointer"
+                className="px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-[#285244] hover:bg-[#1e3e33] rounded-full flex items-center gap-1.5 shadow-sm cursor-pointer"
               >
                 <span>Continue to Contact</span>
                 <ChevronRight className="w-4 h-4" />

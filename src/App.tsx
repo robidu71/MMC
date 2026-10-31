@@ -35,7 +35,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-800 flex flex-col font-sans selection:bg-[#007a87]/20 selection:text-[#007a87]">
+    <div className="min-h-screen bg-[#f7f6f2] text-[#24372f] flex flex-col font-sans selection:bg-[#285244]/20 selection:text-[#285244]">
       
       {/* Top Banner & Header matching Rejuvenators navbar */}
       <Navbar

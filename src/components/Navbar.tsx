@@ -9,7 +9,7 @@ interface NavbarProps {
   onSelectTab?: (tab: string) => void;
 }
 
-export function Navbar({ onOpenBooking, onSelectTab }: NavbarProps) {
+export function Navbar({ onOpenBooking }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [bookingCount, setBookingCount] = useState(0);
   const [servicesDropdown, setServicesDropdown] = useState(false);
@@ -30,6 +30,7 @@ export function Navbar({ onOpenBooking, onSelectTab }: NavbarProps) {
     { label: 'HOME', href: '#home' },
     { label: 'SERVICES', href: '#services', hasDropdown: true },
     { label: 'TREATMENTS', href: '#treatments' },
+    { label: 'SANCTUARY', href: '#gallery' },
     { label: 'LOCATIONS', href: '#locations', hasDropdown: true },
     { label: 'PRICING', href: '#treatments' },
     { label: 'CONTACT', href: '#contact' },
@@ -50,7 +51,7 @@ export function Navbar({ onOpenBooking, onSelectTab }: NavbarProps) {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-slate-200/80 shadow-xs backdrop-blur-md">
+    <header className="sticky top-0 z-50 bg-[#faf9f5]/95 border-b border-[#e5dfd5] shadow-xs backdrop-blur-md">
       {/* Main Navigation Bar */}
       <div className="mx-auto flex max-w-[1440px] items-center justify-between px-4 sm:px-8 py-3.5 sm:py-4">
         
@@ -60,7 +61,7 @@ export function Navbar({ onOpenBooking, onSelectTab }: NavbarProps) {
         </a>
 
         {/* Desktop Navigation Links — All accessible in header */}
-        <nav className="hidden lg:flex items-center gap-5 xl:gap-7 font-sans text-[13px] font-bold text-slate-700 tracking-wider">
+        <nav className="hidden lg:flex items-center gap-5 xl:gap-7 font-sans text-[13px] font-bold text-[#35483f] tracking-wider">
           {navLinks.map((link) => {
             if (link.label === 'SERVICES') {
               return (
@@ -72,24 +73,24 @@ export function Navbar({ onOpenBooking, onSelectTab }: NavbarProps) {
                 >
                   <a
                     href={link.href}
-                    className="flex items-center gap-1 text-slate-700 hover:text-[#007a87] transition-colors"
+                    className="flex items-center gap-1 text-[#35483f] hover:text-[#285244] transition-colors"
                   >
                     <span>{link.label}</span>
-                    <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#007a87]" />
+                    <ChevronDown className="w-3.5 h-3.5 text-[#6c8075] group-hover:text-[#285244]" />
                   </a>
 
                   {/* Dropdown */}
                   {servicesDropdown && (
-                    <div className="absolute top-full left-0 w-72 bg-white rounded-lg shadow-xl border border-slate-100 py-3 px-2 z-50 animate-in fade-in duration-150">
+                    <div className="absolute top-full left-0 w-72 bg-white rounded-xl shadow-xl border border-[#ded8cc] py-3 px-2 z-50 animate-in fade-in duration-150">
                       {serviceItems.map((s, idx) => (
                         <a
                           key={idx}
                           href="#services"
-                          className="block px-3 py-2 rounded-md hover:bg-teal-50 transition-colors"
+                          className="block px-3 py-2 rounded-lg hover:bg-[#eef4f0] transition-colors"
                           onClick={() => setServicesDropdown(false)}
                         >
-                          <div className="text-xs font-bold text-slate-800 hover:text-[#007a87]">{s.title}</div>
-                          <div className="text-[11px] text-slate-500 font-normal">{s.desc}</div>
+                          <div className="text-xs font-bold text-[#1b3127] hover:text-[#285244]">{s.title}</div>
+                          <div className="text-[11px] text-[#5a7065] font-normal">{s.desc}</div>
                         </a>
                       ))}
                     </div>
@@ -108,27 +109,27 @@ export function Navbar({ onOpenBooking, onSelectTab }: NavbarProps) {
                 >
                   <a
                     href={link.href}
-                    className="flex items-center gap-1 text-slate-700 hover:text-[#007a87] transition-colors"
+                    className="flex items-center gap-1 text-[#35483f] hover:text-[#285244] transition-colors"
                   >
                     <span>{link.label}</span>
-                    <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#007a87]" />
+                    <ChevronDown className="w-3.5 h-3.5 text-[#6c8075] group-hover:text-[#285244]" />
                   </a>
 
                   {/* Dropdown */}
                   {locationsDropdown && (
-                    <div className="absolute top-full left-0 w-80 bg-white rounded-lg shadow-xl border border-slate-100 py-3 px-2 z-50 animate-in fade-in duration-150">
+                    <div className="absolute top-full left-0 w-80 bg-white rounded-xl shadow-xl border border-[#ded8cc] py-3 px-2 z-50 animate-in fade-in duration-150">
                       {locationItems.map((loc, idx) => (
                         <a
                           key={idx}
                           href="#locations"
-                          className="block px-3 py-2 rounded-md hover:bg-teal-50 transition-colors"
+                          className="block px-3 py-2 rounded-lg hover:bg-[#eef4f0] transition-colors"
                           onClick={() => setLocationsDropdown(false)}
                         >
-                          <div className="text-xs font-bold text-slate-800 flex items-center justify-between">
+                          <div className="text-xs font-bold text-[#1b3127] flex items-center justify-between">
                             <span>{loc.name}</span>
-                            <span className="text-[9px] bg-teal-100 text-[#007a87] px-1.5 py-0.5 rounded font-semibold">Active</span>
+                            <span className="text-[9px] bg-[#eef4f0] text-[#285244] border border-[#d2e2d8] px-1.5 py-0.5 rounded font-semibold">Active</span>
                           </div>
-                          <div className="text-[11px] text-slate-500 font-normal">{loc.desc}</div>
+                          <div className="text-[11px] text-[#5a7065] font-normal">{loc.desc}</div>
                         </a>
                       ))}
                     </div>
@@ -141,7 +142,7 @@ export function Navbar({ onOpenBooking, onSelectTab }: NavbarProps) {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-slate-700 hover:text-[#007a87] transition-colors py-2 border-b-2 border-transparent hover:border-[#007a87]"
+                className="text-[#35483f] hover:text-[#285244] transition-colors py-2 border-b-2 border-transparent hover:border-[#285244]"
               >
                 {link.label}
               </a>
@@ -166,11 +167,11 @@ export function Navbar({ onOpenBooking, onSelectTab }: NavbarProps) {
 
           <button
             onClick={() => onOpenBooking()}
-            className="group relative flex items-center justify-center gap-2 rounded-full bg-[#007a87] px-5 sm:px-7 py-2 sm:py-2.5 text-xs sm:text-sm font-bold tracking-wider uppercase text-white shadow-md hover:bg-[#00636e] active:scale-95 transition-all cursor-pointer"
+            className="group relative flex items-center justify-center gap-2 rounded-full bg-[#285244] px-5 sm:px-7 py-2 sm:py-2.5 text-xs sm:text-sm font-bold tracking-wider uppercase text-white shadow-md hover:bg-[#1e3e33] active:scale-95 transition-all cursor-pointer"
           >
             <span>BOOK NOW</span>
             {bookingCount > 0 && (
-              <span className="w-5 h-5 rounded-full bg-amber-400 text-slate-900 text-[10px] font-extrabold flex items-center justify-center">
+              <span className="w-5 h-5 rounded-full bg-[#cfa052] text-slate-900 text-[10px] font-extrabold flex items-center justify-center">
                 {bookingCount}
               </span>
             )}
@@ -179,10 +180,10 @@ export function Navbar({ onOpenBooking, onSelectTab }: NavbarProps) {
           {/* Mobile Menu Hamburger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-slate-700 rounded-md hover:bg-slate-100 lg:hidden"
+            className="p-2 text-[#285244] rounded-lg hover:bg-[#eef4f0] lg:hidden"
             aria-label="Toggle mobile menu"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6 text-[#007a87]" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? <X className="w-6 h-6 text-[#285244]" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
 
@@ -190,17 +191,17 @@ export function Navbar({ onOpenBooking, onSelectTab }: NavbarProps) {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-slate-200 px-6 py-5 shadow-xl animate-in slide-in-from-top-2">
-          <nav className="flex flex-col gap-3 font-sans text-sm font-bold text-slate-800">
+        <div className="lg:hidden bg-[#faf9f5] border-t border-[#ded8cc] px-6 py-5 shadow-xl animate-in slide-in-from-top-2">
+          <nav className="flex flex-col gap-3 font-sans text-sm font-bold text-[#1b3127]">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="py-2 border-b border-slate-100 hover:text-[#007a87] flex items-center justify-between"
+                className="py-2 border-b border-[#ece6da] hover:text-[#285244] flex items-center justify-between"
               >
                 <span>{link.label}</span>
-                <span className="text-xs text-slate-400">&rarr;</span>
+                <span className="text-xs text-[#7d9187]">&rarr;</span>
               </a>
             ))}
             
@@ -218,7 +219,7 @@ export function Navbar({ onOpenBooking, onSelectTab }: NavbarProps) {
 
               <a
                 href={`tel:${STUDIO_INFO.phone.replace(/\s+/g, '')}`}
-                className="flex items-center justify-center gap-2 py-2.5 text-xs font-bold text-[#007a87] border border-[#007a87] rounded-full"
+                className="flex items-center justify-center gap-2 py-2.5 text-xs font-bold text-[#285244] border border-[#285244] rounded-full"
               >
                 <Phone className="w-4 h-4" />
                 <span>Call {STUDIO_INFO.phoneDisplay}</span>
@@ -229,7 +230,7 @@ export function Navbar({ onOpenBooking, onSelectTab }: NavbarProps) {
                   setMobileMenuOpen(false);
                   onOpenBooking();
                 }}
-                className="w-full py-3 text-center text-xs font-bold tracking-wider uppercase text-white bg-[#007a87] hover:bg-[#00636e] rounded-full shadow-md cursor-pointer"
+                className="w-full py-3 text-center text-xs font-bold tracking-wider uppercase text-white bg-[#285244] hover:bg-[#1e3e33] rounded-full shadow-md cursor-pointer"
               >
                 BOOK NOW
               </button>

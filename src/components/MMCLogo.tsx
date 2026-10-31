@@ -21,11 +21,11 @@ export function MMCLogo({
       aria-hidden="true"
     >
       <defs>
-        {/* Deep Ocean to Bright Vibrant Teal Gradient */}
+        {/* Deep Botanical Eucalyptus to Forest Green Gradient */}
         <linearGradient id="shairuTealGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#00525c" />
-          <stop offset="50%" stopColor="#007a87" />
-          <stop offset="100%" stopColor="#00b4c6" />
+          <stop offset="0%" stopColor="#1b352b" />
+          <stop offset="50%" stopColor="#285244" />
+          <stop offset="100%" stopColor="#477361" />
         </linearGradient>
 
         {/* Luminous Champagne Gold Accent */}
@@ -126,7 +126,7 @@ export function MMCLogo({
         <div className="w-9 h-9 shrink-0">
           {renderEmblem()}
         </div>
-        <span className="font-sans font-black text-xl tracking-[0.14em] text-[#007a87]">
+        <span className="font-sans font-black text-xl tracking-[0.14em] text-[#285244]">
           SHAIRU
         </span>
       </div>
@@ -143,7 +143,7 @@ export function MMCLogo({
 
       {/* Brand Typography */}
       <div className="flex flex-col justify-center">
-        <div className="flex items-center gap-1 font-sans font-black text-2xl sm:text-3xl tracking-[0.15em] text-[#007a87] leading-none transition-colors group-hover:text-[#005e68]">
+        <div className="flex items-center gap-1 font-sans font-black text-2xl sm:text-3xl tracking-[0.15em] text-[#285244] leading-none transition-colors group-hover:text-[#1b352b]">
           <span>SHAIRU</span>
           <span className="text-xs font-bold text-amber-500 self-start -mt-0.5">®</span>
         </div>

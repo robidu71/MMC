@@ -1,6 +1,6 @@
-import { ArrowDown, ArrowUpRight, MapPin, Building2, Home, ShieldCheck, Clock, CheckCircle2, Sparkles, Phone, Award, MessageCircle } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, MapPin, Building2, Home, CheckCircle2, Sparkles, Phone, MessageCircle, ShieldCheck, Award } from 'lucide-react';
 import { STUDIO_INFO, SYDNEY_AREAS } from '../data/massageData';
-import australiaHeroImage from '../assets/images/australia_mobile_massage_hero_1793386800809.jpg';
+import massageHeroLive from '../assets/images/massage_therapy_live_motion_1793437685128.jpg';
 
 interface HeroSectionProps {
   onOpenBooking: () => void;
@@ -9,119 +9,113 @@ interface HeroSectionProps {
 
 export function HeroSection({ onOpenBooking, onExploreTreatments }: HeroSectionProps) {
   return (
-    <section id="home" className="relative bg-white pb-12 sm:pb-16 overflow-hidden">
+    <section id="home" className="relative bg-[#faf9f5] pb-12 sm:pb-16 overflow-hidden">
       
-      {/* Full-Width Hero Panoramic Banner — Iconic Australia Harbour Water & Opera House at Twilight Sunset */}
-      <div className="relative w-full aspect-[21/9] min-h-[340px] sm:min-h-[440px] md:min-h-[500px] lg:min-h-[560px] max-h-[620px] bg-slate-950 overflow-hidden flex items-center justify-center">
-        {/* Background panoramic image of Australia & Sydney Opera House Water Skyline */}
+      {/* Full-Width Hero Panoramic Banner — Living Massage Session with Cinemagraph Motion */}
+      <div className="relative w-full aspect-[21/9] min-h-[380px] sm:min-h-[480px] md:min-h-[540px] lg:min-h-[600px] max-h-[660px] bg-slate-950 overflow-hidden flex items-center justify-center">
+        
+        {/* Animated living massage photo: gentle continuous zoom & pan simulating relaxing hands-on motion */}
         <img
-          src={australiaHeroImage}
-          alt="Mobile Massage Australia River and Opera House at Twilight"
-          className="absolute inset-0 h-full w-full object-cover object-center filter brightness-[0.98] contrast-[1.08] saturate-[1.12] transition-transform duration-1000 hover:scale-105"
+          src={massageHeroLive}
+          alt="Certified Shairu therapist administering relaxing mobile massage therapy to client"
+          className="absolute inset-0 h-full w-full object-cover object-center filter brightness-[0.93] contrast-[1.05] saturate-[1.1] animate-massage-motion"
         />
 
-        {/* Sophisticated dual cinematic overlay: gentle gradient + radial focus to make text pop while letting the golden twilight & serene water shine */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-black/25 to-slate-900/40 pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-black/40 via-transparent to-black/60 pointer-events-none" />
+        {/* Soothing rhythmic stroke ripple effect centered near the hands-on massage contact zone */}
+        <div aria-hidden="true" className="absolute top-[58%] left-[54%] -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10 hidden sm:block">
+          <div className="w-24 h-24 rounded-full border-2 border-emerald-300/40 animate-stroke-wave-1" />
+          <div className="w-24 h-24 rounded-full border border-[#cfa052]/40 animate-stroke-wave-2" />
+        </div>
 
-        {/* Centered Bold Luxury Typography */}
+        {/* Live session floating indicator */}
+        <div className="absolute top-4 left-4 sm:top-6 sm:left-8 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/45 backdrop-blur-md border border-white/20 text-white text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase shadow-md">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+          </span>
+          <span>Therapist In Session · Mobile Sanctuary</span>
+        </div>
+
+        {/* Cinematic ambient overlays for soft warmth and perfect readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/45 pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-black/20 via-transparent to-black/65 pointer-events-none" />
+
+        {/* Centered Luxury Typography */}
         <div className="relative z-10 max-w-5xl mx-auto px-4 text-center text-white flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 mb-3 shadow-lg">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-emerald-200">
-              5-Star In-Room &amp; Mobile Massage
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-3 sm:mb-4 shadow-sm">
+            <span className="text-[10px] sm:text-xs font-semibold tracking-[0.24em] uppercase text-emerald-300">
+              5-Star In-Room &amp; Mobile Massage Sanctuary
             </span>
           </div>
 
-          <h1 className="font-sans font-black text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-white uppercase drop-shadow-[0_4px_28px_rgba(0,0,0,0.95)] select-none">
-            MOBILE MASSAGE AUSTRALIA
+          <h1 className="font-serif italic font-normal text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-white drop-shadow-[0_4px_32px_rgba(0,0,0,0.95)] select-none">
+            Mobile Massage Australia
           </h1>
           
-          <p className="mt-3 text-xs sm:text-sm md:text-base font-semibold tracking-wider text-teal-100 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] max-w-2xl uppercase">
-            Heated Tables &amp; Organic Oils Delivered to Your Hotel Room or Home · 7 Days 8am – 10pm
+          <p className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-base font-medium tracking-wider text-emerald-100/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)] max-w-2xl leading-relaxed uppercase">
+            Heated Tables · Fresh Organic Linens · Delivered Directly to Your Suite or Home
           </p>
-
-          {/* Quick WhatsApp Booking Pill directly in Hero */}
-          <div className="mt-5 flex items-center gap-3">
-            <a
-              href={STUDIO_INFO.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-full bg-[#25D366] hover:bg-[#20ba59] active:scale-95 text-white px-5 sm:px-7 py-2.5 sm:py-3 text-xs sm:text-sm font-extrabold tracking-wider uppercase shadow-xl transition-all hover:shadow-emerald-500/30 cursor-pointer"
-            >
-              <MessageCircle className="w-4 h-4 fill-white" />
-              <span>Book on WhatsApp (+61 433 556 409)</span>
-            </a>
-          </div>
         </div>
       </div>
 
       {/* Main Intro & Booking Section Directly Below the Panoramic Image */}
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12 pt-8 sm:pt-12">
         {/* Breadcrumb matching website hierarchy */}
-        <div className="flex items-center gap-2 mb-6 text-xs font-semibold tracking-wider uppercase text-slate-500">
-          <a href="#home" className="hover:text-[#007a87]">HOME</a>
-          <span className="text-slate-300">/</span>
-          <a href="#services" className="hover:text-[#007a87]">SERVICES</a>
-          <span className="text-slate-300">/</span>
-          <a href="#treatments" className="hover:text-[#007a87]">TREATMENTS</a>
-          <span className="text-slate-300">/</span>
-          <span className="text-[#007a87] font-bold">AUSTRALIA</span>
+        <div className="flex items-center gap-2 mb-6 text-xs font-semibold tracking-wider uppercase text-[#697d73]">
+          <a href="#home" className="hover:text-[#285244] transition-colors">HOME</a>
+          <span className="text-[#c5cfc9]">/</span>
+          <a href="#services" className="hover:text-[#285244] transition-colors">SERVICES</a>
+          <span className="text-[#c5cfc9]">/</span>
+          <a href="#treatments" className="hover:text-[#285244] transition-colors">TREATMENTS</a>
+          <span className="text-[#c5cfc9]">/</span>
+          <span className="text-[#285244] font-bold">AUSTRALIA</span>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-[1.3fr_.7fr] lg:items-start">
+        <div className="grid gap-8 lg:grid-cols-[1.25fr_.75fr] lg:items-stretch">
           
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-teal-50 px-3.5 py-1 mb-3.5 border border-teal-200">
-              <span className="w-2 h-2 rounded-full bg-[#007a87] animate-pulse" />
-              <p className="text-[11px] font-bold tracking-wider uppercase text-[#007a87]">
-                SHAIRU MOBILE MASSAGE · AUSTRALIA-WIDE DISPATCH
+          {/* Left Column: Narrative & Action buttons */}
+          <div className="flex flex-col justify-between">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 mb-3.5 border-b border-[#285244]/30">
+                <p className="text-[11px] font-bold tracking-wider uppercase text-[#285244]">
+                  SHAIRU MOBILE MASSAGE · AUSTRALIA-WIDE DISPATCH
+                </p>
+              </div>
+
+              <h2 className="font-sans font-extrabold text-2xl sm:text-3xl md:text-4xl tracking-tight text-[#1a3127] mb-4 leading-tight">
+                Professional Day-Spa Treatments Delivered Directly to Your Room
+              </h2>
+
+              <p className="text-base sm:text-lg leading-relaxed text-[#475b51] mb-6 font-light">
+                Enjoy 5-star relaxation without leaving your room. Our certified, professional therapists bring everything to your door—a heated memory-foam table, fresh organic linens, natural botanical oils, and soothing ambient music. Available 7 days a week from 8:00 AM to 10:00 PM for private homes, executive apartments, and luxury hotel suites across Australia.
               </p>
-            </div>
 
-            <h2 className="font-sans font-extrabold text-2xl sm:text-3xl md:text-4xl tracking-tight text-slate-900 mb-4 leading-tight">
-              Professional Day-Spa Treatments Delivered Directly to Your Room
-            </h2>
-
-            {/* Targeted Description Text */}
-            <p className="text-base sm:text-lg leading-relaxed text-slate-600 mb-6 font-light">
-              {STUDIO_INFO.heroDesc}
-            </p>
-
-            {/* Feature Pills */}
-            <div className="grid sm:grid-cols-2 gap-3.5 mb-8">
-              <div className="flex items-start gap-3 p-3.5 rounded-lg bg-slate-50 border border-slate-200">
-                <div className="w-9 h-9 rounded-full bg-teal-100 flex items-center justify-center text-[#007a87] shrink-0 font-bold">
-                  <Building2 className="w-5 h-5" />
+              {/* Feature Cards */}
+              <div className="grid sm:grid-cols-2 gap-3.5 mb-6">
+                <div className="flex items-start gap-3 p-4 rounded-xl bg-white border border-[#ded8cc] shadow-xs">
+                  <div className="w-10 h-10 rounded-full bg-[#eef4f0] flex items-center justify-center text-[#285244] shrink-0 font-bold border border-[#d2e2d8]">
+                    <Building2 className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-[#1a3127] uppercase">Hotel In-Room Service</h4>
+                    <p className="text-xs text-[#5a7065] mt-0.5">Trusted by Australia’s 4 &amp; 5 star hotels with seamless room delivery.</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-xs font-bold text-slate-900 uppercase">Hotel In-Room Service</h4>
-                  <p className="text-xs text-slate-500 mt-0.5">Trusted by Sydney’s 4 &amp; 5 star hotels with seamless room delivery.</p>
-                </div>
-              </div>
 
-              <div className="flex items-start gap-3 p-3.5 rounded-lg bg-slate-50 border border-slate-200">
-                <div className="w-9 h-9 rounded-full bg-teal-100 flex items-center justify-center text-[#007a87] shrink-0 font-bold">
-                  <Home className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-slate-900 uppercase">At-Home Comfort</h4>
-                  <p className="text-xs text-slate-500 mt-0.5">We bring the full setup: heated table, organic cotton linen &amp; music.</p>
+                <div className="flex items-start gap-3 p-4 rounded-xl bg-white border border-[#ded8cc] shadow-xs">
+                  <div className="w-10 h-10 rounded-full bg-[#eef4f0] flex items-center justify-center text-[#285244] shrink-0 font-bold border border-[#d2e2d8]">
+                    <Home className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-[#1a3127] uppercase">At-Home Comfort</h4>
+                    <p className="text-xs text-[#5a7065] mt-0.5">We bring the full setup: heated table, organic cotton linen &amp; soundscapes.</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Direct Booking & WhatsApp Action Bar */}
+            {/* Direct WhatsApp & Call Action Bar */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
-              <button
-                onClick={onOpenBooking}
-                className="flex items-center gap-2 rounded-full bg-[#007a87] hover:bg-[#00636e] px-6 sm:px-7 py-3 text-xs sm:text-sm font-bold tracking-wider uppercase text-white shadow-md transition-all active:scale-95 cursor-pointer"
-              >
-                <span>Book Mobile Visit</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </button>
-
-              {/* WhatsApp direct chat button */}
               <a
                 href={STUDIO_INFO.whatsappUrl}
                 target="_blank"
@@ -134,62 +128,129 @@ export function HeroSection({ onOpenBooking, onExploreTreatments }: HeroSectionP
 
               <a
                 href={`tel:${STUDIO_INFO.phone.replace(/\s+/g, '')}`}
-                className="flex items-center gap-2 rounded-full border-2 border-slate-300 hover:border-[#007a87] hover:text-[#007a87] px-5 py-2.5 text-xs sm:text-sm font-bold tracking-wider uppercase text-slate-700 transition-colors"
+                className="flex items-center gap-2 rounded-full border-2 border-[#ded8cc] hover:border-[#285244] hover:text-[#285244] px-5 py-2.5 text-xs sm:text-sm font-bold tracking-wider uppercase text-[#35483f] transition-colors bg-white shadow-xs"
               >
-                <Phone className="w-4 h-4 text-[#007a87]" />
+                <Phone className="w-4 h-4 text-[#285244]" />
                 <span>Call {STUDIO_INFO.phoneDisplay}</span>
               </a>
             </div>
           </div>
 
-          {/* Clean, Gorgeous Sydney Service Highlights Card (Clutter removed, prices consolidated in Treatments) */}
-          <div className="bg-gradient-to-br from-slate-50 via-teal-50/30 to-slate-100 p-6 sm:p-7 rounded-2xl border border-teal-100 shadow-sm space-y-5">
-            <div className="flex items-center justify-between border-b border-teal-100 pb-3">
-              <div>
-                <span className="text-[10px] font-bold tracking-widest uppercase text-[#007a87] block">
-                  SYDNEY LUXURY ON DEMAND
+          {/* Right Column / Luxury Highlights Card (SELECTOR 2) */}
+          <div className="rounded-3xl bg-gradient-to-b from-white via-[#faf9f5] to-[#f4f1e8] p-6 sm:p-8 border-2 border-[#285244]/25 hover:border-[#285244]/50 shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col justify-between space-y-6 relative overflow-hidden group">
+            {/* Ambient luxury glow */}
+            <div className="absolute -top-16 -right-16 w-48 h-48 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute -bottom-16 -left-16 w-48 h-48 bg-[#cfa052]/10 rounded-full blur-2xl pointer-events-none" />
+
+            <div className="relative z-10">
+              {/* Header with Live Dispatch Beacon */}
+              <div className="flex items-start justify-between border-b border-[#e2dbce] pb-4 mb-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="relative flex h-2.5 w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600" />
+                    </span>
+                    <span className="text-[10px] font-black tracking-widest uppercase text-[#285244]">
+                      LIVE DISPATCH · AUSTRALIA-WIDE
+                    </span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-serif italic text-[#1a3127] font-normal leading-tight">
+                    5-Star Day Spa Delivered to You
+                  </h3>
+                </div>
+                <span className="px-3 py-1 rounded-full bg-[#285244] text-white text-[10px] font-bold tracking-wider uppercase shadow-xs shrink-0">
+                  8am – 10pm Daily
                 </span>
-                <h3 className="text-lg font-extrabold text-slate-900 mt-0.5">
-                  5-Star Day Spa to Your Door
-                </h3>
               </div>
-              <span className="w-10 h-10 rounded-full bg-teal-100 text-[#007a87] flex items-center justify-center font-bold">
-                <Sparkles className="w-5 h-5" />
-              </span>
+
+              {/* 4 Premium Benefit Tiles */}
+              <div className="space-y-2.5 text-xs text-[#475b51]">
+                <div className="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-[#ded8cc] shadow-2xs hover:border-[#285244]/40 transition-colors">
+                  <div className="w-8 h-8 rounded-lg bg-[#eef4f0] flex items-center justify-center text-[#285244] shrink-0 font-bold border border-[#d2e2d8]">
+                    <CheckCircle2 className="w-4 h-4 text-[#285244]" />
+                  </div>
+                  <div>
+                    <strong className="block text-[#1a3127] text-xs">Commercial Heated Spa Table</strong>
+                    <span className="text-[#5a7065] text-[11px] leading-relaxed">
+                      Memory-foam table, heated fleece topper, 100% Egyptian cotton linens &amp; ambient soundscape.
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-[#ded8cc] shadow-2xs hover:border-[#285244]/40 transition-colors">
+                  <div className="w-8 h-8 rounded-lg bg-[#eef4f0] flex items-center justify-center text-[#285244] shrink-0 font-bold border border-[#d2e2d8]">
+                    <ShieldCheck className="w-4 h-4 text-[#285244]" />
+                  </div>
+                  <div>
+                    <strong className="block text-[#1a3127] text-xs">Certified, Vetted &amp; Insured</strong>
+                    <span className="text-[#5a7065] text-[11px] leading-relaxed">
+                      100% accredited Australian remedial &amp; Swedish therapists with active police clearances.
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-[#ded8cc] shadow-2xs hover:border-[#285244]/40 transition-colors">
+                  <div className="w-8 h-8 rounded-lg bg-[#eef4f0] flex items-center justify-center text-[#285244] shrink-0 font-bold border border-[#d2e2d8]">
+                    <Sparkles className="w-4 h-4 text-[#285244]" />
+                  </div>
+                  <div>
+                    <strong className="block text-[#1a3127] text-xs">Cold-Pressed Botanical Oils</strong>
+                    <span className="text-[#5a7065] text-[11px] leading-relaxed">
+                      Pure organic jojoba, sweet almond &amp; botanical aromatherapy (unscented options available).
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-[#ded8cc] shadow-2xs hover:border-[#285244]/40 transition-colors">
+                  <div className="w-8 h-8 rounded-lg bg-[#eef4f0] flex items-center justify-center text-[#285244] shrink-0 font-bold border border-[#d2e2d8]">
+                    <Award className="w-4 h-4 text-[#285244]" />
+                  </div>
+                  <div>
+                    <strong className="block text-[#1a3127] text-xs">Zero Travel Fee in Metro Zones</strong>
+                    <span className="text-[#5a7065] text-[11px] leading-relaxed">
+                      Flat rates across Sydney CBD, Eastern Suburbs, North Shore &amp; Inner West.
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mini Transparent Rate Snapshot */}
+              <div className="mt-4 pt-3.5 border-t border-[#e2dbce] flex items-center justify-between text-xs">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#697d73]">
+                  All-Inclusive Rates:
+                </span>
+                <div className="flex items-center gap-1.5 font-bold">
+                  <span className="px-2 py-0.5 rounded-md bg-[#eef4f0] text-[#1b3429] border border-[#d2e2d8] text-[11px]">
+                    1h $100
+                  </span>
+                  <span className="px-2 py-0.5 rounded-md bg-[#285244] text-white text-[11px] shadow-2xs">
+                    1.5h $140
+                  </span>
+                  <span className="px-2 py-0.5 rounded-md bg-[#eef4f0] text-[#1b3429] border border-[#d2e2d8] text-[11px]">
+                    2h $170
+                  </span>
+                </div>
+              </div>
             </div>
 
-            <div className="space-y-3 text-xs text-slate-700">
-              <div className="flex items-start gap-3 bg-white p-3 rounded-xl border border-slate-200">
-                <CheckCircle2 className="w-4 h-4 text-[#007a87] shrink-0 mt-0.5" />
-                <div>
-                  <strong className="block text-slate-900">Full Luxury Spa Equipment Provided</strong>
-                  <span className="text-slate-500 text-[11px]">Heated portable table, sanitized Egyptian cotton linens &amp; relaxing soundscapes.</span>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3 bg-white p-3 rounded-xl border border-slate-200">
-                <CheckCircle2 className="w-4 h-4 text-[#007a87] shrink-0 mt-0.5" />
-                <div>
-                  <strong className="block text-slate-900">Certified &amp; Insured Sydney Therapists</strong>
-                  <span className="text-slate-500 text-[11px]">100% vetted professionals with continuous police checks and qualification screening.</span>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3 bg-white p-3 rounded-xl border border-slate-200">
-                <CheckCircle2 className="w-4 h-4 text-[#007a87] shrink-0 mt-0.5" />
-                <div>
-                  <strong className="block text-slate-900">Zero Travel Surcharge in Metro</strong>
-                  <span className="text-slate-500 text-[11px]">Direct mobile dispatch across Sydney CBD, Eastern Suburbs, North Shore &amp; Inner West.</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-2">
+            {/* Action Buttons: Instant Booking & Menu View */}
+            <div className="relative z-10 pt-2 space-y-2">
               <button
-                onClick={onExploreTreatments}
-                className="w-full py-2.5 rounded-xl bg-white border border-[#007a87] text-[#007a87] hover:bg-[#007a87] hover:text-white font-bold text-xs uppercase tracking-wider transition-all text-center flex items-center justify-center gap-1.5 cursor-pointer"
+                type="button"
+                onClick={onOpenBooking}
+                className="w-full py-3.5 px-4 rounded-xl bg-[#285244] hover:bg-[#1e3e33] active:scale-[0.99] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer"
               >
-                <span>View Treatments Menu &amp; Rates</span>
+                <span>Instant Booking &amp; WhatsApp Order</span>
+                <ArrowUpRight className="w-4 h-4 text-emerald-300" />
+              </button>
+
+              <button
+                type="button"
+                onClick={onExploreTreatments}
+                className="w-full py-2.5 rounded-xl border border-[#285244]/30 hover:border-[#285244] hover:bg-[#eef4f0] text-[#285244] font-semibold text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <span>Explore 6 Treatments Menu</span>
                 <ArrowDown className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -198,13 +259,13 @@ export function HeroSection({ onOpenBooking, onExploreTreatments }: HeroSectionP
         </div>
 
         {/* Coverage Suburbs Banner */}
-        <div className="mt-10 pt-6 border-t border-slate-200 flex flex-wrap items-center gap-2 text-xs text-slate-500">
-          <span className="font-bold text-slate-800 flex items-center gap-1.5">
-            <MapPin className="w-3.5 h-3.5 text-[#007a87]" />
+        <div className="mt-10 pt-6 border-t border-[#ded8cc] flex flex-wrap items-center gap-2 text-xs text-[#5a7065]">
+          <span className="font-bold text-[#1a3127] flex items-center gap-1.5">
+            <MapPin className="w-3.5 h-3.5 text-[#285244]" />
             Sydney Coverage Zones:
           </span>
           {SYDNEY_AREAS.map((area, i) => (
-            <span key={i} className="bg-slate-100 hover:bg-teal-50 px-3 py-1 rounded-full text-slate-700 border border-slate-200">
+            <span key={i} className="bg-white hover:bg-[#eef4f0] px-3 py-1 rounded-full text-[#394d43] border border-[#ded8cc] shadow-2xs">
               {area}
             </span>
           ))}

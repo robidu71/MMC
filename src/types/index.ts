@@ -13,6 +13,7 @@ export interface ServiceItem {
   durations: string;
   priceDisplay: string;
   color: string;
+  imageSrc?: string;
   durationOptions: DurationOption[];
   included: string[];
 }
