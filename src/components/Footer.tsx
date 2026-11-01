@@ -2,7 +2,11 @@ import { Phone, Clock, MapPin, ShieldCheck, MessageCircle } from 'lucide-react';
 import { STUDIO_INFO, SERVICES } from '../data/massageData';
 import { MMCLogo } from './MMCLogo';
 
-export function Footer() {
+interface FooterProps {
+  onOpenGoogleSitesGuide?: () => void;
+}
+
+export function Footer({ onOpenGoogleSitesGuide }: FooterProps) {
   return (
     <footer className="bg-[#13241c] text-[#d1e5dc] border-t border-[#1e362a] font-sans">
       {/* Top Banner inside Footer */}
@@ -145,7 +149,7 @@ export function Footer() {
           <p>
             &copy; {new Date().getFullYear()} Shairu Mobile Massage &amp; Therapies Australia. All rights reserved.
           </p>
-          <div className="flex items-center gap-4 text-[#8fae9f]">
+          <div className="flex flex-wrap items-center justify-center gap-3 text-[#8fae9f]">
             <a href="#services" className="hover:text-white">Services</a>
             <span>•</span>
             <a href="#treatments" className="hover:text-white">Treatments</a>
@@ -155,6 +159,17 @@ export function Footer() {
             <a href="#locations" className="hover:text-white">Locations</a>
             <span>•</span>
             <a href="#contact" className="hover:text-white">Contact</a>
+            {onOpenGoogleSitesGuide && (
+              <>
+                <span>•</span>
+                <button
+                  onClick={onOpenGoogleSitesGuide}
+                  className="text-emerald-400 hover:text-emerald-300 font-medium inline-flex items-center gap-1 cursor-pointer transition-colors"
+                >
+                  <span>Google Sites Embed Guide</span>
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

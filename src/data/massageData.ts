@@ -1,4 +1,13 @@
 import { ServiceItem, GallerySpace, ReviewItem, FAQItem } from '../types';
+import hotStonesImg from '../assets/images/massage_hot_stones_luxury_1793430255272.jpg';
+import footReflexologyImg from '../assets/images/foot_reflexology_restorative_1793430297425.jpg';
+import relaxingBodyImg from '../assets/images/relaxing_body_massage_therapy_1793430269067.jpg';
+import sydneyLuxuryImg from '../assets/images/sydney_luxury_massage_1793382660973.jpg';
+import sydneyMobileImg from '../assets/images/sydney_mobile_massage_1793382502662.jpg';
+import hotelSuiteImg from '../assets/images/hotel_suite_massage_sanctuary_1793430281840.jpg';
+import inHomeBotanicalImg from '../assets/images/in_home_botanical_spa_1793436289912.jpg';
+import herbalScalpImg from '../assets/images/herbal_scalp_relaxation_1793436303081.jpg';
+import botanicalFootSoakImg from '../assets/images/botanical_foot_soak_care_1793436317955.jpg';
 
 export const STUDIO_INFO = {
   name: 'Shairu',
@@ -103,7 +112,7 @@ export const SERVICES: ServiceItem[] = [
     durations: '1h · 1.5h · 2h',
     priceDisplay: '$100 / $140 / $170',
     color: '#ede5d8',
-    imageSrc: '/src/assets/images/massage_hot_stones_luxury_1793430255272.jpg',
+    imageSrc: hotStonesImg,
     durationOptions: [
       { minutes: 60, price: 100, label: '1 hour' },
       { minutes: 90, price: 140, label: '1.5 hours' },
@@ -126,7 +135,7 @@ export const SERVICES: ServiceItem[] = [
     durations: '1h · 1.5h · 2h',
     priceDisplay: '$100 / $140 / $170',
     color: '#dce3d8',
-    imageSrc: '/src/assets/images/foot_reflexology_restorative_1793430297425.jpg',
+    imageSrc: footReflexologyImg,
     durationOptions: [
       { minutes: 60, price: 100, label: '1 hour' },
       { minutes: 90, price: 140, label: '1.5 hours' },
@@ -149,7 +158,7 @@ export const SERVICES: ServiceItem[] = [
     durations: '1h · 1.5h · 2h',
     priceDisplay: '$100 / $140 / $170',
     color: '#e9ddd2',
-    imageSrc: '/src/assets/images/relaxing_body_massage_therapy_1793430269067.jpg',
+    imageSrc: relaxingBodyImg,
     durationOptions: [
       { minutes: 60, price: 100, label: '1 hour' },
       { minutes: 90, price: 140, label: '1.5 hours' },
@@ -172,7 +181,7 @@ export const SERVICES: ServiceItem[] = [
     durations: '1h · 1.5h · 2h',
     priceDisplay: '$100 / $140 / $170',
     color: '#e3dfd3',
-    imageSrc: '/src/assets/images/sydney_luxury_massage_1793382660973.jpg',
+    imageSrc: sydneyLuxuryImg,
     durationOptions: [
       { minutes: 60, price: 100, label: '1 hour' },
       { minutes: 90, price: 140, label: '1.5 hours' },
@@ -195,7 +204,7 @@ export const SERVICES: ServiceItem[] = [
     durations: '1h · 1.5h · 2h',
     priceDisplay: '$100 / $140 / $170',
     color: '#ede8dd',
-    imageSrc: '/src/assets/images/sydney_mobile_massage_1793382502662.jpg',
+    imageSrc: sydneyMobileImg,
     durationOptions: [
       { minutes: 60, price: 100, label: '1 hour' },
       { minutes: 90, price: 140, label: '1.5 hours' },
@@ -218,7 +227,7 @@ export const SERVICES: ServiceItem[] = [
     durations: '1h · 1.5h · 2h',
     priceDisplay: '$100 / $140 / $170',
     color: '#dfe5dc',
-    imageSrc: '/src/assets/images/hotel_suite_massage_sanctuary_1793430281840.jpg',
+    imageSrc: hotelSuiteImg,
     durationOptions: [
       { minutes: 60, price: 100, label: '1 hour' },
       { minutes: 90, price: 140, label: '1.5 hours' },
@@ -239,7 +248,7 @@ export const GALLERY_SPACES: GallerySpace[] = [
     id: 'space-inhome',
     title: 'Eco-Luxe In-Home Sanctuary',
     subtitle: 'Sunlit living room setup with organic unbleached linen, living eucalyptus greenery, and ergonomic heated massage table.',
-    imageSrc: '/src/assets/images/in_home_botanical_spa_1793436289912.jpg',
+    imageSrc: inHomeBotanicalImg,
     isRealPhoto: true,
     specs: {
       sound: 'Gentle Acoustic Calm',
@@ -257,7 +266,7 @@ export const GALLERY_SPACES: GallerySpace[] = [
     id: 'space-room',
     title: 'Luxury Hotel Suite Retreat',
     subtitle: 'Private in-room transformation with heated table, plush organic linens, and serene harbor views.',
-    imageSrc: '/src/assets/images/hotel_suite_massage_sanctuary_1793430281840.jpg',
+    imageSrc: hotelSuiteImg,
     isRealPhoto: true,
     specs: {
       sound: 'Soundproof Sanctuary',
@@ -275,7 +284,7 @@ export const GALLERY_SPACES: GallerySpace[] = [
     id: 'space-scalp',
     title: 'Herbal Oil & Scalp Acupressure',
     subtitle: 'Warm organic jojoba, sweet almond oil, and fresh lavender infusion for soothing cranial stress relief.',
-    imageSrc: '/src/assets/images/herbal_scalp_relaxation_1793436303081.jpg',
+    imageSrc: herbalScalpImg,
     isRealPhoto: true,
     specs: {
       sound: 'Aromatherapy Stillness',
@@ -293,7 +302,7 @@ export const GALLERY_SPACES: GallerySpace[] = [
     id: 'space-soak',
     title: 'Botanical Foot Soak & Reflexology',
     subtitle: 'Warm copper basin with wild eucalyptus, lavender blossoms, and grounding reflexology pressure points.',
-    imageSrc: '/src/assets/images/botanical_foot_soak_care_1793436317955.jpg',
+    imageSrc: botanicalFootSoakImg,
     isRealPhoto: true,
     specs: {
       sound: 'Soft Water & Earth Tones',
@@ -311,7 +320,7 @@ export const GALLERY_SPACES: GallerySpace[] = [
     id: 'space-session',
     title: 'Therapeutic Bodywork Effleurage',
     subtitle: 'Gentle, restorative touch with rhythmic Swedish strokes on heated memory-foam bedding.',
-    imageSrc: '/src/assets/images/relaxing_body_massage_therapy_1793430269067.jpg',
+    imageSrc: relaxingBodyImg,
     isRealPhoto: true,
     specs: {
       sound: 'Soft Ambient Quietude',
@@ -329,7 +338,7 @@ export const GALLERY_SPACES: GallerySpace[] = [
     id: 'space-apothecary',
     title: 'Heated Basalt & Organic Botanicals',
     subtitle: 'Smooth volcanic stones, jasmine & lavender essential oils, and plush Egyptian cotton.',
-    imageSrc: '/src/assets/images/massage_hot_stones_luxury_1793430255272.jpg',
+    imageSrc: hotStonesImg,
     isRealPhoto: true,
     specs: {
       sound: 'Tranquil Acoustic Sanctuary',

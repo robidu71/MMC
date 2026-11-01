@@ -8,9 +8,11 @@ import { BookingSection } from './components/BookingSection';
 import { Footer } from './components/Footer';
 import { BookingModal } from './components/BookingModal';
 import { ChatAgent } from './components/ChatAgent';
+import { GoogleSitesEmbedModal } from './components/GoogleSitesEmbedModal';
 
 export default function App() {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [isGoogleSitesModalOpen, setIsGoogleSitesModalOpen] = useState(false);
   const [selectedServiceId, setSelectedServiceId] = useState<string | undefined>(undefined);
   const [selectedDuration, setSelectedDuration] = useState<number | undefined>(undefined);
 
@@ -68,7 +70,7 @@ export default function App() {
       </main>
 
       {/* Rejuvenators Australia Network Footer */}
-      <Footer />
+      <Footer onOpenGoogleSitesGuide={() => setIsGoogleSitesModalOpen(true)} />
 
       {/* Interactive Step-by-Step Online Booking Modal */}
       <BookingModal
@@ -76,6 +78,12 @@ export default function App() {
         onClose={handleCloseBooking}
         initialServiceId={selectedServiceId}
         initialDuration={selectedDuration}
+      />
+
+      {/* Google Sites Integration Guide Modal */}
+      <GoogleSitesEmbedModal
+        isOpen={isGoogleSitesModalOpen}
+        onClose={() => setIsGoogleSitesModalOpen(false)}
       />
 
       {/* Floating 5-Star AI Concierge Chat Agent with Google Grounding & WhatsApp */}

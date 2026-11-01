@@ -112,29 +112,42 @@ async function startServer() {
   const app = express();
   const PORT = Number(process.env.PORT) || 3000;
 
+  // Security: Trust reverse proxy (Cloud Run / Google Cloud load balancer)
+  app.set('trust proxy', 1);
+
   // Security: Prevent server fingerprinting by disabling X-Powered-By
   app.disable('x-powered-by');
 
   // Performance: High-speed Gzip/Deflate compression for all HTTP responses
   app.use(compression({ threshold: 512 }));
 
+  // Security: Prevent URI-based buffer overflow or ReDoS attacks
+  app.use((req, res, next) => {
+    if (req.url.length > 2048) {
+      res.status(414).json({ error: 'URI Too Long' });
+      return;
+    }
+    next();
+  });
+
   // Security: Limit request body to prevent memory exhaustion / DoS
   app.use(express.json({ limit: '30kb' }));
 
   // Security & Google Sites Compatibility: CORS & CSP frame-ancestors headers
   app.use((req, res, next) => {
+    // Remove legacy X-Frame-Options to allow framing in modern iframes (Google Sites, etc.)
+    res.removeHeader('X-Frame-Options');
+
+    // Content-Security-Policy: frame-ancestors * specifically permits embedding in Google Sites, custom domains, and AI Studio
+    res.setHeader('Content-Security-Policy', 'frame-ancestors *;');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
     res.setHeader('X-Content-Type-Options', 'nosniff');
-    res.setHeader('X-XSS-Protection', '1; mode=block');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-    res.setHeader('Permissions-Policy', 'camera=(), microphone=(), payment=()');
-    // Content-Security-Policy: specifically permits embedding in Google Sites, custom domains, and AI Studio
-    res.setHeader(
-      'Content-Security-Policy',
-      "frame-ancestors 'self' https://sites.google.com https://*.google.com https://*.googleusercontent.com https://*.run.app https://* http://*;"
-    );
+    res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
 
     if (req.method === 'OPTIONS') {
       res.status(204).end();
@@ -169,6 +182,7 @@ async function startServer() {
 
     // Security: Rate limiting check (max 30 requests per minute per IP)
     if (!checkRateLimit(clientIp, 30, 60 * 1000)) {
+      res.setHeader('Retry-After', '60');
       res.status(429).json({
         error: 'Too many requests. Please wait a moment before sending another message.',
       });
@@ -180,6 +194,12 @@ async function startServer() {
     // Security: Input validation & length bounding to prevent token exhaustion / memory spikes
     if (!message || typeof message !== 'string') {
       res.status(400).json({ error: 'Message is required and must be text' });
+      return;
+    }
+
+    // Security: Validate history structure to prevent prototype pollution or unexpected types
+    if (history !== undefined && !Array.isArray(history)) {
+      res.status(400).json({ error: 'History must be an array' });
       return;
     }
 
@@ -312,6 +332,13 @@ async function startServer() {
       grounded: isGrounded,
     });
   });
+
+  // Always serve raw image assets statically for maximum resilience in both dev and prod
+  const srcImagesDir = path.resolve(__dirname, 'src', 'assets', 'images');
+  if (fs.existsSync(srcImagesDir)) {
+    app.use('/src/assets/images', express.static(srcImagesDir, { maxAge: '1d' }));
+    app.use('/assets/images', express.static(srcImagesDir, { maxAge: '1d' }));
+  }
 
   // Mount Vite middlewares in dev mode, or serve pre-built static dist in prod
   const distIndex = path.resolve(__dirname, 'dist', 'index.html');
